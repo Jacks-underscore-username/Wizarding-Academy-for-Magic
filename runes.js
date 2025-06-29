@@ -5,7 +5,7 @@ export default /**
  * @param {Number} size
  * @param {Number} padding
  * @param {import("./config").colorScheme} colorScheme
- * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, drawRuneImages: (runeSet: rune[], front?: boolean) => void, downloadCanvas: (name: string) => void}}
+ * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, drawRuneImages: (runeSet: rune[], front?: boolean) => void, downloadCanvas: (name: string) => void, totalRuneCount: number}}
  */
 (canvas, ctx, size, padding, colorScheme) => {
   /** @typedef {{scale: number, offsetX: number, offsetY: number}} normalizationValue */
@@ -1370,6 +1370,9 @@ export default /**
     drawRune,
     drawRuneTree,
     drawRuneImages,
-    downloadCanvas
+    downloadCanvas,
+    get totalRuneCount() {
+      return runes.reduce((prev, set) => prev + set[1].length, 0)
+    }
   }
 }
