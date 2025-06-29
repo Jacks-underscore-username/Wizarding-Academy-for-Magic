@@ -5,7 +5,7 @@ export default /**
  * @param {Number} size
  * @param {Number} padding
  * @param {import("./config").colorScheme} colorScheme
- * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, downloadCanvas: (name: string) => void}}
+ * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, drawRuneImages: (runeSet: rune[], front?: boolean) => void, downloadCanvas: (name: string) => void}}
  */
 (canvas, ctx, size, padding, colorScheme) => {
   /** @typedef {{scale: number, offsetX: number, offsetY: number}} normalizationValue */
@@ -1299,6 +1299,63 @@ export default /**
   }
 
   /**
+   * @param {rune[]} runeSet
+   * @param {boolean} [front]
+   */
+  const drawRuneImages = (runeSet, front = false) => {
+    const scale = 1
+    const [gridWidth, gridHeight] = (() => {
+      for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === runeSet.length) return [x, y]
+      return [10, 7]
+    })()
+    canvas.width = size * scale * gridWidth
+    canvas.height = size * scale * gridHeight
+    ctx.scale(scale, scale)
+    for (let y = 0; y < gridHeight; y++)
+      for (let x = 0; x < gridWidth; x++) {
+        const rune = runeSet[y * gridWidth + x]
+
+        if (rune) drawRune(rune)
+
+        if (x === gridWidth - 1) {
+          ctx.translate(-size * (gridWidth - 1), size)
+        } else ctx.translate(size, 0)
+      }
+    if (!front) return
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.scale(scale, scale)
+    ctx.fillStyle = colorScheme.outsideColor
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    for (let y = 0; y < gridHeight; y++)
+      for (let x = 0; x < gridWidth; x++) {
+        const lineCount = runeSet[y * gridWidth + x]?.l
+        if (lineCount !== undefined) {
+          ctx.fillStyle = colorScheme.outsideColor
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+          ctx.fillStyle = colorScheme.backgroundColor
+          ctx.beginPath()
+          ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.fillStyle = colorScheme.lineLevelHighlights[lineCount - 1]
+          ctx.font = `bold italic ${size / 6}px Pirata One`
+          ctx.fillText('Spell', size / 2, size * 0.15)
+          ctx.shadowColor = ctx.fillStyle
+          ctx.shadowBlur = size / 2
+          ctx.font = `bold ${size / 2}px Pirata One`
+          ctx.fillText(`L${lineCount}`, size / 2, size * 0.55)
+          ctx.shadowBlur = 0
+          ctx.font = `bold italic ${size / 6}px Pirata One`
+          ctx.fillText('Rune', size / 2, size * 0.85)
+        }
+
+        if (x === gridWidth - 1) ctx.translate(-size * (gridWidth - 1), size)
+        else ctx.translate(size, 0)
+      }
+  }
+
+  /**
    * @param {string} name
    */
   const downloadCanvas = name => {
@@ -1312,6 +1369,7 @@ export default /**
     runes,
     drawRune,
     drawRuneTree,
+    drawRuneImages,
     downloadCanvas
   }
 }
