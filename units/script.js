@@ -3,7 +3,7 @@ const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d'))
 import colorScheme from '../config.js'
 import rawSpellsModule from '../spells.js'
 const size = window.innerWidth / 10
-;(async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const spellsModule = await rawSpellsModule(canvas, ctx, size, colorScheme)
   const values = [
     'tier',
@@ -54,4 +54,4 @@ const size = window.innerWidth / 10
       page?.appendChild(wrapper)
     }
   }
-})()
+})

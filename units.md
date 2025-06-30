@@ -26,9 +26,9 @@
 * **Pay description**: Unlearn X T2 or above spellS
 * **Gain description**: Learn X T2 or below spellS
 * **Grant description**: Target opponent learns X T2 or below spellS
-* **Drain description**: Target opponent unlearns X T2 spellS of their choice
+* **Drain description**: Target opponent unlearns X T2 or below spellS of their choice
 * **Give description**: Give target opponent X T2 or above spellS
-* **Take description**: Target opponent gives you X T2 spellS of their choice
+* **Take description**: Target opponent gives you X T2 or below spellS of their choice
 
 ### T3 Spells:
 * **Tier**: 2
@@ -42,9 +42,9 @@
 * **Pay description**: Unlearn X T3 or above spellS
 * **Gain description**: Learn X T3 or below spellS
 * **Grant description**: Target opponent learns X T3 or below spellS
-* **Drain description**: Target opponent unlearns X T3 spellS of their choice
+* **Drain description**: Target opponent unlearns X T3 or below spellS of their choice
 * **Give description**: Give target opponent X T3 or above spellS
-* **Take description**: Target opponent gives you X T3 spellS of their choice
+* **Take description**: Target opponent gives you X T3 or below spellS of their choice
 
 ### T4 Spells:
 * **Tier**: 3
@@ -58,9 +58,9 @@
 * **Pay description**: Unlearn X T4 or above spellS
 * **Gain description**: Learn X T4 or below spellS
 * **Grant description**: Target opponent learns X T4 or below spellS
-* **Drain description**: Target opponent unlearns X T4 spellS of their choice
+* **Drain description**: Target opponent unlearns X T4 or below spellS of their choice
 * **Give description**: Give target opponent X T4 or above spellS
-* **Take description**: Target opponent gives you X T4 spellS of their choice
+* **Take description**: Target opponent gives you X T4 or below spellS of their choice
 
 ### T5 Spells:
 * **Tier**: 4
@@ -74,9 +74,9 @@
 * **Pay description**: Unlearn X T5 spellS
 * **Gain description**: Learn X T5 or below spellS
 * **Grant description**: Target opponent learns X T5 or below spellS
-* **Drain description**: Target opponent unlearns X T5 spellS of their choice
+* **Drain description**: Target opponent unlearns X T5 or below spellS of their choice
 * **Give description**: Give target opponent X T5 spellS
-* **Take description**: Target opponent gives you X T5 spellS of their choice
+* **Take description**: Target opponent gives you X T5 or below spellS of their choice
 
 ### Mana:
 * **Tier**: 1 
@@ -86,7 +86,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 1
+* **Multiplier**: 0.5
 * **Pay description**: Pay X Mana
 * **Gain description**: Gain X Mana
 * **Grant description**: Target opponent gains X Mana

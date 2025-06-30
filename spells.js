@@ -186,14 +186,16 @@ async (canvas, ctx, size, colorScheme) => {
       const inputMult = rawSpell.input.mode === 'give' ? 2 : 1
       const outputMult = rawSpell.output.mode === 'take' ? 2 : 1
 
-      const mult = (calculateMult(T, A, B) * inputMult) / outputMult
+      const mult =
+        (((calculateMult(T, A, B) * inputMult) / outputMult) * rawSpell.input.unit.multiplier) /
+        rawSpell.output.unit.multiplier
       let best = 0
-      for (let index = 1; index <= 10; index++) {
+      for (let index = 1; index <= 100; index++) {
         if (mult * index === Math.floor(mult * index)) {
           best = index
           break
         }
-        if (index === 10) throw new Error('Uh oh')
+        if (index === 100) throw new Error('Uh oh')
       }
 
       /** @type {spell} */

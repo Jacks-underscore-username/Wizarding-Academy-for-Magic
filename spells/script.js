@@ -3,7 +3,7 @@ const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d'))
 import colorScheme from '../config.js'
 import rawSpellsModule from '../spells.js'
 const size = window.innerWidth / 10
-;(async () => {
+document.fonts.ready.then(async () => {
   const spellsModule = await rawSpellsModule(canvas, ctx, size, colorScheme)
 
   let index = 0
@@ -92,4 +92,4 @@ const size = window.innerWidth / 10
     index = 0
     updateSpells(index)
   })
-})()
+})
