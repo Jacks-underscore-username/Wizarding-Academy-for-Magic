@@ -40,7 +40,7 @@ html, body {
 
 .navbar_item svg {
     width: auto;
-    height: 15px;
+    height: 35px;
 }
 
 .navbar_item:link {
@@ -65,36 +65,4 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-#controls {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
-
-#controls button {
-    all: unset;
-    font-size: x-large;
-    padding: 10px;
-    color: #0f0;
-    border: 2px solid #fff;
-    border-radius: 15px;
-    background: #333;
-}
-
-#set_name {
-    font-size: x-large;
-    padding: 10px;
-    color: #0f0;
-    border: 2px solid #fff;
-    border-radius: 15px;
-    background: #333;
-}
-
-#canvas {
-    max-width: 100%;
-    margin: 10px;
 }

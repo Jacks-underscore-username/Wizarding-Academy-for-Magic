@@ -1,0 +1,43 @@
+.unit_wrapper {
+    overflow: hidden;
+    padding: 0;
+    background: #333;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.unit_wrapper:hover {
+    border-color: #0f0;
+}
+
+.unit_wrapper .title {
+    padding: 10px;
+    font-size: larger;
+    color: #0f0;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.unit_wrapper .line {
+    padding: 0;
+    height: 0;
+    transition: all 0.5s ease-in-out;
+    transition-delay: 1s;
+}
+
+.unit_wrapper:hover .line {
+    padding: 1px 5px 1px 5px;
+    height: 20px;
+    transition-delay: 0s;
+}
+
+.unit_wrapper .line .name {
+    font-weight: bold;
+    color: #fff
+}
+
+.unit_wrapper .line .value
+{
+    color: #0f0;
+}

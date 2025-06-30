@@ -1305,7 +1305,7 @@ export default /**
    * @param {boolean} [front]
    */
   const drawRuneImages = (runeSet, front = false) => {
-    const scale = 1
+    const scale = 3
     const [gridWidth, gridHeight] = (() => {
       for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === runeSet.length) return [x, y]
       return [10, 7]

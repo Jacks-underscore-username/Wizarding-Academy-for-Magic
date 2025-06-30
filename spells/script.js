@@ -3,9 +3,8 @@ const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d'))
 import colorScheme from '../config.js'
 import rawSpellsModule from '../spells.js'
 const size = window.innerWidth / 10
-const padding = 25
 ;(async () => {
-  const spellsModule = await rawSpellsModule(canvas, ctx, size, padding, colorScheme)
+  const spellsModule = await rawSpellsModule(canvas, ctx, size, colorScheme)
 
   let index = 0
   let front = false

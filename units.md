@@ -94,6 +94,22 @@
 * **Give description**: Give target opponent X Mana
 * **Take description**: Take X Mana from target opponent
 
+### Mana Boost:
+* **Tier**: 2 
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0.5
+* **Pay description**: 
+* **Gain description**: Target other Mana producing spell in this compound makes X extra Mana as it resolves
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
 ### Life:
 * **Tier**: 2 
 * **Can pay**: yes 

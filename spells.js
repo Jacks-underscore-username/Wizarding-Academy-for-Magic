@@ -41,11 +41,10 @@ export default /**
  * @param {HTMLCanvasElement} canvas
  * @param {CanvasRenderingContext2D} ctx
  * @param {Number} size
- * @param {Number} padding
  * @param {import("./config").colorScheme} colorScheme
- * @returns {Promise<{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number}>}
+ * @returns {Promise<{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number, units: Map<String, unit>}>}
  */
-async (canvas, ctx, size, padding, colorScheme) => {
+async (canvas, ctx, size, colorScheme) => {
   /** @type {Map<String, unit>} */
   const units = new Map(
     (await (await fetch('../units.md')).text())
@@ -58,7 +57,7 @@ async (canvas, ctx, size, padding, colorScheme) => {
           .map(x => x.trim())
         const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
         const tier = /** @type {1|2|3|4|5} */ (
-          Number.parseInt((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
+          Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
         )
         const canPay = /^\* \*\*Can pay\*\*: yes$/.test(lines.shift() ?? '')
         const canGain = /^\* \*\*Can gain\*\*: yes$/.test(lines.shift() ?? '')
@@ -66,7 +65,7 @@ async (canvas, ctx, size, padding, colorScheme) => {
         const canDrain = /^\* \*\*Can drain\*\*: yes$/.test(lines.shift() ?? '')
         const canGive = /^\* \*\*Can give\*\*: yes$/.test(lines.shift() ?? '')
         const canTake = /^\* \*\*Can take\*\*: yes$/.test(lines.shift() ?? '')
-        const multiplier = Number.parseInt((lines.shift() ?? '').match(/^\* \*\*Multiplier\*\*: (.*)$/)?.[1] ?? '')
+        const multiplier = Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Multiplier\*\*: (.*)$/)?.[1] ?? '')
         const payDesc = (lines.shift() ?? '').match(/^\* \*\*Pay description\*\*: (.*)$/)?.[1] ?? ''
         const gainDesc = (lines.shift() ?? '').match(/^\* \*\*Gain description\*\*: (.*)$/)?.[1] ?? ''
         const grantDesc = (lines.shift() ?? '').match(/^\* \*\*Grant description\*\*: (.*)$/)?.[1] ?? ''
@@ -127,7 +126,7 @@ async (canvas, ctx, size, padding, colorScheme) => {
           .map(x => x.trim())
         const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
         const tier = /** @type {1|2|3|4|5} */ (
-          Number.parseInt((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
+          Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
         )
         const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
         const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
@@ -197,12 +196,11 @@ async (canvas, ctx, size, padding, colorScheme) => {
    * @param {boolean} [front]
    */
   const drawSpellImages = (spellSet, front = false) => {
-    const scale = 1
-    // const [gridWidth, gridHeight] = (() => {
-    //   for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === spellSet.length) return [x, y]
-    //   return [10, 7]
-    // })()
-    const [gridWidth, gridHeight] = [5, 2]
+    const scale = 3
+    const [gridWidth, gridHeight] = (() => {
+      for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === spellSet.length) return [x, y]
+      return [10, 7]
+    })()
     canvas.width = 250 * scale * gridWidth
     canvas.height = 350 * scale * gridHeight
     ctx.scale(scale, scale)
@@ -350,6 +348,7 @@ async (canvas, ctx, size, padding, colorScheme) => {
     downloadCanvas,
     get totalSpellCount() {
       return spells.reduce((prev, set) => prev + set[1].length, 0)
-    }
+    },
+    units
   }
 }
