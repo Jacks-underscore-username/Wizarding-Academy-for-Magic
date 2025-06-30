@@ -1,3 +1,5 @@
+## Base (1/4)
+
 ### Name 1:
 * **Tier**: 1
 * **Input**: Pay T1 Spells
@@ -27,6 +29,8 @@
 * **Input**: Pay T1 Spells
 * **Output**: Gain Life
 * **Flavor**: flavor
+
+## Base (2/4)
 
 ### Name 6:
 * **Tier**: 1

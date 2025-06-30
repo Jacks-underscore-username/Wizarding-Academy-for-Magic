@@ -26,6 +26,7 @@
  * @prop {string} flavor
  * @prop {{unit: unit, mode: unitMode}} input
  * @prop {{unit: unit, mode: unitMode}} output
+ * @prop {string} set
  */
 
 /**
@@ -114,39 +115,52 @@ async (canvas, ctx, size, colorScheme) => {
     return str
   }
 
-  /** @type {Map<String, rawSpell>} */
-  const rawSpells = new Map(
-    (await (await fetch('../spells.md')).text())
-      .split('### ')
-      .filter(x => x)
-      .map(rawUnit => {
-        const lines = rawUnit
-          .split('\n')
-          .filter(x => x)
-          .map(x => x.trim())
-        const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
-        const tier = /** @type {1|2|3|4|5} */ (
-          Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
-        )
-        const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
-        const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
-        const outputName = (lines[0] ?? '').match(/^\* \*\*Output\*\*: \S+ (.*)$/)?.[1] ?? ''
-        const outputMode = (lines.shift() ?? '').match(/^\* \*\*Output\*\*: (\S+) .*$/)?.[1] ?? ''
-        const flavor = (lines.shift() ?? '').match(/^\* \*\*Flavor\*\*: (.*)$/)?.[1] ?? ''
-        const inputUnit = units.get(inputName)
-        const outputUnit = units.get(outputName)
-        if (inputUnit === undefined) throw new Error(`Unknown unit "${inputName}"`)
-        if (outputUnit === undefined) throw new Error(`Unknown unit "${outputName}"`)
-        return {
-          name,
-          tier,
-          input: { unit: inputUnit, mode: /** @type {unitMode} */ (inputMode.toLowerCase()) },
-          output: { unit: outputUnit, mode: /** @type {unitMode} */ (outputMode.toLowerCase()) },
-          flavor
-        }
-      })
-      .map(spell => [spell.name, spell])
-  )
+  let lastSet = ''
+  const rawSpells =
+    /** @type {rawSpell[]} */
+    (
+      (await (await fetch('../spells.md')).text())
+        .split('### ')
+        .map(rawUnit => {
+          let set = lastSet
+          const lines = rawUnit
+            .split('\n')
+            .filter(x => x)
+            .map(x => x.trim())
+            .map(line => {
+              if (/^## .*$/.test(line)) {
+                lastSet = line.match(/^## (.*)$/)?.[1] ?? ''
+                if (set === '') set = lastSet
+                return ''
+              }
+              return line
+            })
+            .filter(line => line)
+          if (!lines.length) return
+          const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
+          const tier = /** @type {1|2|3|4|5} */ (
+            Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
+          )
+          const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
+          const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
+          const outputName = (lines[0] ?? '').match(/^\* \*\*Output\*\*: \S+ (.*)$/)?.[1] ?? ''
+          const outputMode = (lines.shift() ?? '').match(/^\* \*\*Output\*\*: (\S+) .*$/)?.[1] ?? ''
+          const flavor = (lines.shift() ?? '').match(/^\* \*\*Flavor\*\*: (.*)$/)?.[1] ?? ''
+          const inputUnit = units.get(inputName)
+          const outputUnit = units.get(outputName)
+          if (inputUnit === undefined) throw new Error(`Unknown unit "${inputName}"`)
+          if (outputUnit === undefined) throw new Error(`Unknown unit "${outputName}"`)
+          return {
+            name,
+            tier,
+            input: { unit: inputUnit, mode: /** @type {unitMode} */ (inputMode.toLowerCase()) },
+            output: { unit: outputUnit, mode: /** @type {unitMode} */ (outputMode.toLowerCase()) },
+            flavor,
+            set
+          }
+        })
+        .filter(spell => spell)
+    )
 
   /**
    * @param {number} T
@@ -156,40 +170,50 @@ async (canvas, ctx, size, colorScheme) => {
    */
   const calculateMult = (T, A, B) => (1 / Math.max(2 * B - A - T, 1)) * Math.max(2 * T - A - B, 1)
 
+  lastSet = ''
   /** @type {[String, spell[]][]} */
-  const spells = [
-    [
-      'Base',
-      Array.from(rawSpells.values()).map(rawSpell => {
-        const T = rawSpell.tier
-        const A = rawSpell.input.unit.tier
-        const B = rawSpell.output.unit.tier
+  const spells = rawSpells.reduce(
+    /**
+     * @param {[String, spell[]][]} prev
+     * @param {rawSpell} rawSpell
+     * @returns {[String, spell[]][]}
+     */
+    (prev, rawSpell) => {
+      const T = rawSpell.tier
+      const A = rawSpell.input.unit.tier
+      const B = rawSpell.output.unit.tier
 
-        const inputMult = rawSpell.input.mode === 'give' ? 2 : 1
-        const outputMult = rawSpell.output.mode === 'take' ? 2 : 1
+      const inputMult = rawSpell.input.mode === 'give' ? 2 : 1
+      const outputMult = rawSpell.output.mode === 'take' ? 2 : 1
 
-        const mult = (calculateMult(T, A, B) * inputMult) / outputMult
-        let best = 0
-        for (let index = 1; index <= 10; index++) {
-          if (mult * index === Math.floor(mult * index)) {
-            best = index
-            break
-          }
-          if (index === 10) throw new Error('Uh oh')
+      const mult = (calculateMult(T, A, B) * inputMult) / outputMult
+      let best = 0
+      for (let index = 1; index <= 10; index++) {
+        if (mult * index === Math.floor(mult * index)) {
+          best = index
+          break
         }
+        if (index === 10) throw new Error('Uh oh')
+      }
 
-        /** @type {spell} */
-        const spell = {
-          name: rawSpell.name,
-          tier: rawSpell.tier,
-          flavor: rawSpell.flavor,
-          input: { unit: rawSpell.input.unit, mode: rawSpell.input.mode, count: best },
-          output: { unit: rawSpell.output.unit, mode: rawSpell.output.mode, count: mult * best }
-        }
-        return spell
-      })
-    ]
-  ]
+      /** @type {spell} */
+      const spell = {
+        name: rawSpell.name,
+        tier: rawSpell.tier,
+        flavor: rawSpell.flavor,
+        input: { unit: rawSpell.input.unit, mode: rawSpell.input.mode, count: best },
+        output: { unit: rawSpell.output.unit, mode: rawSpell.output.mode, count: mult * best }
+      }
+
+      if (rawSpell.set !== lastSet) {
+        prev.push([rawSpell.set, []])
+        lastSet = rawSpell.set
+      }
+      prev[prev.length - 1][1].push(spell)
+      return prev
+    },
+    []
+  )
 
   /**
    * @param {spell[]} spellSet
