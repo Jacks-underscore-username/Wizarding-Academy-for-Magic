@@ -1,4 +1,4 @@
-/** @typedef {{func: () => void, l:1|2|3|4|5}} rune */
+/** @typedef {{func: () => void, tier:1|2|3|4|5}} rune */
 export default /**
  * @param {HTMLCanvasElement} canvas
  * @param {CanvasRenderingContext2D} ctx
@@ -100,7 +100,7 @@ export default /**
             moveTo(0, -30)
             lineTo(0, 30)
           },
-          l: 1
+          tier: 1
         },
         {
           func: () => {
@@ -112,7 +112,7 @@ export default /**
             resetPath()
             arc(0, -40, 10, 0, Math.PI * 2)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -124,7 +124,7 @@ export default /**
             resetPath()
             arc(0, -40, 25, 0, Math.PI)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -136,7 +136,7 @@ export default /**
             moveTo(-25, 0)
             lineTo(25, 0)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -150,7 +150,7 @@ export default /**
             lineTo(0, 50)
             lineTo(-20, 20)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -164,7 +164,7 @@ export default /**
             resetPath()
             arc(0, -40, 25, 0, Math.PI)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -178,7 +178,7 @@ export default /**
             moveTo(-25, 0)
             lineTo(25, 0)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -194,7 +194,7 @@ export default /**
             lineTo(0, 50)
             lineTo(-20, 20)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -208,7 +208,7 @@ export default /**
             moveTo(-25, 0)
             lineTo(25, 0)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -224,7 +224,7 @@ export default /**
             lineTo(0, 50)
             lineTo(-20, 20)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -240,77 +240,7 @@ export default /**
             lineTo(0, 50)
             lineTo(-20, 20)
           },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -30)
-            lineTo(0, 30)
-            resetPath()
-            arc(0, -40, 10, 0, Math.PI * 2)
-            resetPath()
-            arc(0, -40, 25, 0, Math.PI)
-            moveTo(-25, 0)
-            lineTo(25, 0)
-          },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -30)
-            lineTo(0, 30)
-            resetPath()
-            arc(0, -40, 10, 0, Math.PI * 2)
-            resetPath()
-            arc(0, -40, 25, 0, Math.PI)
-            moveTo(-20, 20)
-            lineTo(20, 20)
-            lineTo(0, 50)
-            lineTo(-20, 20)
-          },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -30)
-            lineTo(0, 30)
-            resetPath()
-            arc(0, -40, 10, 0, Math.PI * 2)
-            moveTo(-25, 0)
-            lineTo(25, 0)
-            moveTo(-20, 20)
-            lineTo(20, 20)
-            lineTo(0, 50)
-            lineTo(-20, 20)
-          },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -30)
-            lineTo(0, 30)
-            resetPath()
-            arc(0, -40, 25, 0, Math.PI)
-            moveTo(-25, 0)
-            lineTo(25, 0)
-            moveTo(-20, 20)
-            lineTo(20, 20)
-            lineTo(0, 50)
-            lineTo(-20, 20)
-          },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -325,12 +255,82 @@ export default /**
             arc(0, -40, 25, 0, Math.PI)
             moveTo(-25, 0)
             lineTo(25, 0)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -30)
+            lineTo(0, 30)
+            resetPath()
+            arc(0, -40, 10, 0, Math.PI * 2)
+            resetPath()
+            arc(0, -40, 25, 0, Math.PI)
             moveTo(-20, 20)
             lineTo(20, 20)
             lineTo(0, 50)
             lineTo(-20, 20)
           },
-          l: 5
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -30)
+            lineTo(0, 30)
+            resetPath()
+            arc(0, -40, 10, 0, Math.PI * 2)
+            moveTo(-25, 0)
+            lineTo(25, 0)
+            moveTo(-20, 20)
+            lineTo(20, 20)
+            lineTo(0, 50)
+            lineTo(-20, 20)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -30)
+            lineTo(0, 30)
+            resetPath()
+            arc(0, -40, 25, 0, Math.PI)
+            moveTo(-25, 0)
+            lineTo(25, 0)
+            moveTo(-20, 20)
+            lineTo(20, 20)
+            lineTo(0, 50)
+            lineTo(-20, 20)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -30)
+            lineTo(0, 30)
+            resetPath()
+            arc(0, -40, 10, 0, Math.PI * 2)
+            resetPath()
+            arc(0, -40, 25, 0, Math.PI)
+            moveTo(-25, 0)
+            lineTo(25, 0)
+            moveTo(-20, 20)
+            lineTo(20, 20)
+            lineTo(0, 50)
+            lineTo(-20, 20)
+          },
+          tier: 5
         }
       ]
     ],
@@ -347,7 +347,7 @@ export default /**
             lineTo(-40, 40)
             lineTo(40, -40)
           },
-          l: 1
+          tier: 1
         },
         {
           func: () => {
@@ -363,7 +363,7 @@ export default /**
             lineTo(-50, 30)
             lineTo(-20, 0)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -377,7 +377,7 @@ export default /**
             resetPath()
             arc(0, -40, 15, 0, Math.PI * 2)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -394,7 +394,7 @@ export default /**
             lineTo(40, 20)
             lineTo(20, 0)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -408,7 +408,7 @@ export default /**
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -426,7 +426,7 @@ export default /**
             resetPath()
             arc(0, -40, 15, 0, Math.PI * 2)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -447,7 +447,7 @@ export default /**
             lineTo(40, 20)
             lineTo(20, 0)
           },
-          l: 3
+          tier: 3
         },
         {
           func: () => {
@@ -465,128 +465,7 @@ export default /**
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            resetPath()
-            arc(0, -40, 15, 0, Math.PI * 2)
-            moveTo(20, 0)
-            lineTo(40, -20)
-            lineTo(60, 0)
-            lineTo(40, 20)
-            lineTo(20, 0)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            resetPath()
-            arc(0, -40, 15, 0, Math.PI * 2)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            moveTo(20, 0)
-            lineTo(40, -20)
-            lineTo(60, 0)
-            lineTo(40, 20)
-            lineTo(20, 0)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            moveTo(-20, 0)
-            lineTo(-50, -30)
-            lineTo(-50, 30)
-            lineTo(-20, 0)
-            resetPath()
-            arc(0, -40, 15, 0, Math.PI * 2)
-            moveTo(20, 0)
-            lineTo(40, -20)
-            lineTo(60, 0)
-            lineTo(40, 20)
-            lineTo(20, 0)
-          },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            moveTo(-20, 0)
-            lineTo(-50, -30)
-            lineTo(-50, 30)
-            lineTo(-20, 0)
-            resetPath()
-            arc(0, -40, 15, 0, Math.PI * 2)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 6)
-            moveTo(-40, -40)
-            lineTo(40, 40)
-            lineTo(-40, 40)
-            lineTo(40, -40)
-            moveTo(-20, 0)
-            lineTo(-50, -30)
-            lineTo(-50, 30)
-            lineTo(-20, 0)
-            resetPath()
-            moveTo(20, 0)
-            lineTo(40, -20)
-            lineTo(60, 0)
-            lineTo(40, 20)
-            lineTo(20, 0)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -604,10 +483,43 @@ export default /**
             lineTo(60, 0)
             lineTo(40, 20)
             lineTo(20, 0)
+          },
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            resetPath()
+            arc(0, -40, 15, 0, Math.PI * 2)
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 4
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            moveTo(20, 0)
+            lineTo(40, -20)
+            lineTo(60, 0)
+            lineTo(40, 20)
+            lineTo(20, 0)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 3
         },
         {
           func: () => {
@@ -629,10 +541,98 @@ export default /**
             lineTo(60, 0)
             lineTo(40, 20)
             lineTo(20, 0)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            moveTo(-20, 0)
+            lineTo(-50, -30)
+            lineTo(-50, 30)
+            lineTo(-20, 0)
+            resetPath()
+            arc(0, -40, 15, 0, Math.PI * 2)
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 5
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            moveTo(-20, 0)
+            lineTo(-50, -30)
+            lineTo(-50, 30)
+            lineTo(-20, 0)
+            resetPath()
+            moveTo(20, 0)
+            lineTo(40, -20)
+            lineTo(60, 0)
+            lineTo(40, 20)
+            lineTo(20, 0)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            resetPath()
+            arc(0, -40, 15, 0, Math.PI * 2)
+            moveTo(20, 0)
+            lineTo(40, -20)
+            lineTo(60, 0)
+            lineTo(40, 20)
+            lineTo(20, 0)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-60, -60], [60, 60])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 6)
+            moveTo(-40, -40)
+            lineTo(40, 40)
+            lineTo(-40, 40)
+            lineTo(40, -40)
+            moveTo(-20, 0)
+            lineTo(-50, -30)
+            lineTo(-50, 30)
+            lineTo(-20, 0)
+            resetPath()
+            arc(0, -40, 15, 0, Math.PI * 2)
+            moveTo(20, 0)
+            lineTo(40, -20)
+            lineTo(60, 0)
+            lineTo(40, 20)
+            lineTo(20, 0)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 5
         }
       ]
     ],
@@ -649,7 +649,7 @@ export default /**
             lineTo(20, -10)
             lineTo(0, 50)
           },
-          l: 1
+          tier: 1
         },
         {
           func: () => {
@@ -664,7 +664,7 @@ export default /**
             lineTo(-40, 34)
             lineTo(-10, 20)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -678,7 +678,7 @@ export default /**
             moveTo(-25, -35)
             lineTo(15, -35)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -692,7 +692,7 @@ export default /**
             resetPath()
             arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -706,106 +706,7 @@ export default /**
             resetPath()
             arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
           },
-          l: 2
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-30, -5)
-            lineTo(-40, 34)
-            lineTo(-10, 20)
-            moveTo(-25, -35)
-            lineTo(15, -35)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-30, -5)
-            lineTo(-40, 34)
-            lineTo(-10, 20)
-            resetPath()
-            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-30, -5)
-            lineTo(-40, 34)
-            lineTo(-10, 20)
-            resetPath()
-            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-25, -35)
-            lineTo(15, -35)
-            resetPath()
-            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-25, -35)
-            lineTo(15, -35)
-            resetPath()
-            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            resetPath()
-            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
-            resetPath()
-            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
-          },
-          l: 3
+          tier: 2
         },
         {
           func: () => {
@@ -821,29 +722,8 @@ export default /**
             lineTo(-10, 20)
             moveTo(-25, -35)
             lineTo(15, -35)
-            resetPath()
-            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
           },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 5)
-            moveTo(0, -50)
-            lineTo(-20, 10)
-            lineTo(20, -10)
-            lineTo(0, 50)
-            moveTo(-30, -5)
-            lineTo(-40, 34)
-            lineTo(-10, 20)
-            moveTo(-25, -35)
-            lineTo(15, -35)
-            resetPath()
-            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
-          },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -859,10 +739,25 @@ export default /**
             lineTo(-10, 20)
             resetPath()
             arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+          },
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-30, -5)
+            lineTo(-40, 34)
+            lineTo(-10, 20)
             resetPath()
             arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
           },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -877,10 +772,40 @@ export default /**
             lineTo(15, -35)
             resetPath()
             arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+          },
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-25, -35)
+            lineTo(15, -35)
             resetPath()
             arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
           },
-          l: 4
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            resetPath()
+            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+            resetPath()
+            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
+          },
+          tier: 3
         },
         {
           func: () => {
@@ -898,10 +823,85 @@ export default /**
             lineTo(15, -35)
             resetPath()
             arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-30, -5)
+            lineTo(-40, 34)
+            lineTo(-10, 20)
+            moveTo(-25, -35)
+            lineTo(15, -35)
             resetPath()
             arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
           },
-          l: 5
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-30, -5)
+            lineTo(-40, 34)
+            lineTo(-10, 20)
+            resetPath()
+            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+            resetPath()
+            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-25, -35)
+            lineTo(15, -35)
+            resetPath()
+            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+            resetPath()
+            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-50, -50], [50, 50])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 5)
+            moveTo(0, -50)
+            lineTo(-20, 10)
+            lineTo(20, -10)
+            lineTo(0, 50)
+            moveTo(-30, -5)
+            lineTo(-40, 34)
+            lineTo(-10, 20)
+            moveTo(-25, -35)
+            lineTo(15, -35)
+            resetPath()
+            arc(20, -10, 12, Math.PI * 1.2, Math.PI * 0.3)
+            resetPath()
+            arc(2, 45, 12, Math.PI * 1.1, Math.PI * 0.1)
+          },
+          tier: 5
         }
       ]
     ],
@@ -917,7 +917,7 @@ export default /**
             lineTo(0, -50)
             lineTo(35, 60)
           },
-          l: 1
+          tier: 1
         },
         {
           func: () => {
@@ -930,7 +930,7 @@ export default /**
             resetPath()
             arc(0, -60, 10, 0, Math.PI * 2)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -943,7 +943,7 @@ export default /**
             moveTo(-30, -10)
             lineTo(30, -10)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -956,7 +956,7 @@ export default /**
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 2
+          tier: 2
         },
         {
           func: () => {
@@ -969,97 +969,7 @@ export default /**
             resetPath()
             arc(0, 0, 50, 0, Math.PI)
           },
-          l: 2
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            resetPath()
-            arc(0, -60, 10, 0, Math.PI * 2)
-            moveTo(-30, -10)
-            lineTo(30, -10)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            resetPath()
-            arc(0, -60, 10, 0, Math.PI * 2)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            resetPath()
-            arc(0, -60, 10, 0, Math.PI * 2)
-            resetPath()
-            arc(0, 0, 50, 0, Math.PI)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            moveTo(-30, -10)
-            lineTo(30, -10)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            moveTo(-30, -10)
-            lineTo(30, -10)
-            resetPath()
-            arc(0, 0, 50, 0, Math.PI)
-          },
-          l: 3
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
-            resetPath()
-            arc(0, 0, 50, 0, Math.PI)
-          },
-          l: 3
+          tier: 2
         },
         {
           func: () => {
@@ -1073,27 +983,8 @@ export default /**
             arc(0, -60, 10, 0, Math.PI * 2)
             moveTo(-30, -10)
             lineTo(30, -10)
-            resetPath()
-            arc(0, 25, 5, 0, Math.PI * 2)
           },
-          l: 4
-        },
-        {
-          func: () => {
-            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
-            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
-            ctx.lineWidth = normalizeValue(normalizationValue, 7)
-            moveTo(-35, 60)
-            lineTo(0, -50)
-            lineTo(35, 60)
-            resetPath()
-            arc(0, -60, 10, 0, Math.PI * 2)
-            moveTo(-30, -10)
-            lineTo(30, -10)
-            resetPath()
-            arc(0, 0, 50, 0, Math.PI)
-          },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -1107,10 +998,23 @@ export default /**
             arc(0, -60, 10, 0, Math.PI * 2)
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            resetPath()
+            arc(0, -60, 10, 0, Math.PI * 2)
             resetPath()
             arc(0, 0, 50, 0, Math.PI)
           },
-          l: 4
+          tier: 3
         },
         {
           func: () => {
@@ -1124,10 +1028,38 @@ export default /**
             lineTo(30, -10)
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            moveTo(-30, -10)
+            lineTo(30, -10)
             resetPath()
             arc(0, 0, 50, 0, Math.PI)
           },
-          l: 4
+          tier: 3
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+            resetPath()
+            arc(0, 0, 50, 0, Math.PI)
+          },
+          tier: 3
         },
         {
           func: () => {
@@ -1143,17 +1075,87 @@ export default /**
             lineTo(30, -10)
             resetPath()
             arc(0, 25, 5, 0, Math.PI * 2)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            resetPath()
+            arc(0, -60, 10, 0, Math.PI * 2)
+            moveTo(-30, -10)
+            lineTo(30, -10)
             resetPath()
             arc(0, 0, 50, 0, Math.PI)
           },
-          l: 5
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            resetPath()
+            arc(0, -60, 10, 0, Math.PI * 2)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+            resetPath()
+            arc(0, 0, 50, 0, Math.PI)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            moveTo(-30, -10)
+            lineTo(30, -10)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+            resetPath()
+            arc(0, 0, 50, 0, Math.PI)
+          },
+          tier: 4
+        },
+        {
+          func: () => {
+            const normalizationValue = calculateNormalize([-70, -70], [70, 70])
+            const { moveTo, lineTo, arc } = getNormalizedFunctions(normalizationValue)
+            ctx.lineWidth = normalizeValue(normalizationValue, 7)
+            moveTo(-35, 60)
+            lineTo(0, -50)
+            lineTo(35, 60)
+            resetPath()
+            arc(0, -60, 10, 0, Math.PI * 2)
+            moveTo(-30, -10)
+            lineTo(30, -10)
+            resetPath()
+            arc(0, 25, 5, 0, Math.PI * 2)
+            resetPath()
+            arc(0, 0, 50, 0, Math.PI)
+          },
+          tier: 5
         }
       ]
     ]
   ]
 
   /**
-   * @param {{func: () => void, l:1|2|3|4|5}} rune
+   * @param {rune} rune
+   * @param {boolean} [drawBackground1]
+   * @param {boolean} [drawBackground2]
    */
   const drawRune = (rune, drawBackground1 = true, drawBackground2 = true) => {
     if (drawBackground1) {
@@ -1169,7 +1171,7 @@ export default /**
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'
     ctx.beginPath()
-    ctx.strokeStyle = colorScheme.lineLevelHighlights[rune.l - 1]
+    ctx.strokeStyle = colorScheme.lineLevelHighlights[rune.tier - 1]
     ctx.shadowColor = ctx.strokeStyle
     ctx.shadowBlur = size / 10
     rune.func()
@@ -1330,7 +1332,7 @@ export default /**
     ctx.textBaseline = 'middle'
     for (let y = 0; y < gridHeight; y++)
       for (let x = 0; x < gridWidth; x++) {
-        const lineCount = runeSet[y * gridWidth + x]?.l
+        const lineCount = runeSet[y * gridWidth + x]?.tier
         if (lineCount !== undefined) {
           ctx.fillStyle = colorScheme.outsideColor
           ctx.fillRect(0, 0, canvas.width, canvas.height)
