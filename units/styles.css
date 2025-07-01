@@ -1,20 +1,31 @@
 .unit_wrapper {
     overflow: hidden;
+    margin: 5px;
     padding: 0;
-    background: #333;
+    background: #454545;
     border: 2px solid #fff;
     border-radius: 10px;
     transition: border-color 0.2s ease-in-out;
+
+    --highlight: #0f0;
+}
+
+.unit_wrapper.semi_used {
+    --highlight: #ff0;
+}
+
+.unit_wrapper.unused {
+    --highlight: #f00;
 }
 
 .unit_wrapper:hover {
-    border-color: #0f0;
+    border-color: var(--highlight);
 }
 
 .unit_wrapper .title {
     padding: 10px;
     font-size: larger;
-    color: #0f0;
+    color: var(--highlight);
     font-style: italic;
     font-weight: bold;
 }
@@ -38,4 +49,9 @@
 .unit_wrapper .line .value
 {
     color: #0f0;
+}
+
+.unit_wrapper .line .value.unused
+{
+    color: #f00;
 }

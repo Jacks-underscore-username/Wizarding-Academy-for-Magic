@@ -253,3 +253,179 @@
 * **Drain description**:
 * **Give description**:
 * **Take description**:
+
+### Freeze:
+* **Tier**: 3
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**:
+* **Gain description**: Freeze target compound spell with X or less total lines
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Ignite:
+* **Tier**: 4
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 2
+* **Pay description**: 
+* **Gain description**: Choose target compound spell with X or less total lines, it's controller casts it now (they still pay for it)
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Delayed Ignite:
+* **Tier**: 3
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Choose target compound spell with X or less total lines, it's controller casts it at the end of their next turn (they still pay for it)
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Void:
+* **Tier**: 5
+* **Can pay**: yes
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 2
+* **Pay description**: Void target other compound spell with X or more total lines that you control
+* **Gain description**: Void target compound spell with X or less total lines
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Delayed Void:
+* **Tier**: 4
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Choose target compound spell with X or less total lines, it's voided at the end of it's controller's next turn
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Instant:
+* **Tier**: 4
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: You can cast this compound spell at any time if it has X or less total lines (you can only do this once per turn)
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Perpetual:
+* **Tier**: 5
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 2
+* **Pay description**: 
+* **Gain description**: This compound spell is not voided as it resolves if it has X or less total lines
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Forget:
+* **Tier**: 4
+* **Can pay**: no
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 3
+* **Pay description**: 
+* **Gain description**: Forget target TX or below spell from the shared knowledge area
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Steal:
+* **Tier**: 4
+* **Can pay**: yes
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 3
+* **Pay description**: Target opponent gains control of target other compound spell you control with X or less total lines of their choice
+* **Gain description**: Gain control of target compound spell with X or less total lines
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Add:
+* **Tier**: 3
+* **Can pay**: yes
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 2
+* **Pay description**: Target opponent adds X lines to a compound spell of their choice (they can may a new compound)
+* **Gain description**: Add X lines to target compound spell an opponent controls
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Recycle:
+* **Tier**: 2
+* **Can pay**: yes
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: Target opponent chooses an other compound spell you control with X or less total lines, recycle it
+* **Gain description**: Choose target compound spell with X or less total lines, it's controller recycles it
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:

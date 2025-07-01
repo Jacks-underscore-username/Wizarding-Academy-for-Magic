@@ -15,6 +15,8 @@
  * @prop {string} drainDesc
  * @prop {string} giveDesc
  * @prop {string} takeDesc
+ * @prop {boolean} isUsed
+ * @prop {unitMode[]} unusedModes
  */
 
 /** @typedef {'pay'|'gain'|'grant'|'drain'|'give'|'take'|'none'} unitMode */
@@ -303,7 +305,8 @@ async (canvas, ctx, size, colorScheme) => {
         const drainDesc = (lines.shift() ?? '').match(/^\* \*\*Drain description\*\*: (.*)$/)?.[1] ?? ''
         const giveDesc = (lines.shift() ?? '').match(/^\* \*\*Give description\*\*: (.*)$/)?.[1] ?? ''
         const takeDesc = (lines.shift() ?? '').match(/^\* \*\*Take description\*\*: (.*)$/)?.[1] ?? ''
-        return {
+        /** @type {unit} */
+        const unit = {
           name,
           tier,
           canPay,
@@ -318,8 +321,11 @@ async (canvas, ctx, size, colorScheme) => {
           grantDesc,
           drainDesc,
           giveDesc,
-          takeDesc
+          takeDesc,
+          isUsed: false,
+          unusedModes: []
         }
+        return unit
       })
       .map(unit => [unit.name, unit])
   )
@@ -458,17 +464,32 @@ async (canvas, ctx, size, colorScheme) => {
     []
   )
 
-  const unusedUnits = Array.from(
-    units
-      .keys()
-      .filter(name =>
-        spells.every(set => set[1].every(spell => spell.input.unit.name !== name && spell.output.unit.name !== name))
+  const allSpells = spells.flatMap(set => set[1])
+
+  for (const [name, unit] of units) {
+    /** @type {(keyof unit)[]} */
+    const validKeys = []
+    for (const key of /** @type {(keyof unit)[]} */ ([
+      'canPay',
+      'canGain',
+      'canGrant',
+      'canDrain',
+      'canGive',
+      'canTake'
+    ]))
+      if (unit[key]) validKeys.push(key)
+    const validModes = /** @type {unitMode[]} */ (validKeys.map(key => key.slice(3).toLowerCase()))
+    for (const mode of validModes)
+      if (
+        allSpells.some(
+          spell =>
+            (spell.input.unit.name === name && spell.input.mode === mode) ||
+            (spell.output.unit.name === name && spell.output.mode === mode)
+        )
       )
-  )
-  if (unusedUnits.length)
-    console.warn(
-      `${unusedUnits.length} unit${unusedUnits.length === 1 ? ' is' : 's are'} unused: ${unusedUnits.map(name => `\n * ${name}`)}`
-    )
+        unit.isUsed = true
+      else unit.unusedModes.push(mode)
+  }
 
   /**
    * @param {spell[]} spellSet

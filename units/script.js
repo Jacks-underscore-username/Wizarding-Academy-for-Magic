@@ -31,10 +31,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     ])
     .map(l => [l[0], l[1][0].toUpperCase() + l[1].slice(1)])
   const page = document.getElementById('page_content')
-  for (const unit of spellsModule.units.values()) {
+  for (const unit of Array.from(spellsModule.units.values())
+    .sort((a, b) => a.multiplier - b.multiplier)
+    .sort((a, b) => a.tier - b.tier)) {
     const wrapper = document.createElement('div')
     wrapper.addEventListener('click', () => wrapper.classList.toggle('open'))
     wrapper.classList.add('unit_wrapper')
+    if (!unit.isUsed) wrapper.classList.add('unused')
+    else if (unit.unusedModes.length) wrapper.classList.add('semi_used')
     const title = document.createElement('div')
     title.classList.add('title')
     title.textContent = unit.name
@@ -47,6 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       nameElement.textContent = `${name}: `
       const valueElement = document.createElement('span')
       valueElement.classList.add('value')
+      if (unit.unusedModes.map(mode => `can${mode[0].toUpperCase()}${mode.slice(1)}`).includes(key))
+        valueElement.classList.add('unused')
       // @ts-expect-error
       valueElement.textContent = unit[key]
       line.appendChild(nameElement)
