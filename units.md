@@ -6,7 +6,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 1
+* **Multiplier**: 3
 * **Pay description**: Unlearn X T1 or above spellS
 * **Gain description**: Learn X T1 spellS
 * **Grant description**: Target opponent learns X T1 spellS
@@ -22,7 +22,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 2
+* **Multiplier**: 6
 * **Pay description**: Unlearn X T2 or above spellS
 * **Gain description**: Learn X T2 or below spellS
 * **Grant description**: Target opponent learns X T2 or below spellS
@@ -38,7 +38,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 2
+* **Multiplier**: 9
 * **Pay description**: Unlearn X T3 or above spellS
 * **Gain description**: Learn X T3 or below spellS
 * **Grant description**: Target opponent learns X T3 or below spellS
@@ -54,7 +54,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 2
+* **Multiplier**: 12
 * **Pay description**: Unlearn X T4 or above spellS
 * **Gain description**: Learn X T4 or below spellS
 * **Grant description**: Target opponent learns X T4 or below spellS
@@ -70,7 +70,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 2
+* **Multiplier**: 15
 * **Pay description**: Unlearn X T5 spellS
 * **Gain description**: Learn X T5 or below spellS
 * **Grant description**: Target opponent learns X T5 or below spellS
@@ -86,7 +86,7 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 0.5
+* **Multiplier**: 1
 * **Pay description**: Pay X Mana
 * **Gain description**: Gain X Mana
 * **Grant description**: Target opponent gains X Mana
@@ -102,7 +102,7 @@
 * **Can drain**: no
 * **Can give**: no
 * **Can take**: no
-* **Multiplier**: 0.5
+* **Multiplier**: 1
 * **Pay description**: 
 * **Gain description**: Target other Mana producing spell in this compound makes X extra Mana as it resolves
 * **Grant description**:
@@ -118,10 +118,26 @@
 * **Can drain**: yes
 * **Can give**: yes
 * **Can take**: yes
-* **Multiplier**: 1
+* **Multiplier**: 2
 * **Pay description**: Pay X life 
 * **Gain description**: Gain X life
 * **Grant description**: Target opponent gains X life
 * **Drain description**: Target opponent loses X life
 * **Give description**: Give target opponent X life
 * **Take description**: Take X life from target opponent
+
+### :
+* **Tier**: 1
+* **Can pay**: yes 
+* **Can gain**: no
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0
+* **Pay description**:
+* **Gain description**:
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:

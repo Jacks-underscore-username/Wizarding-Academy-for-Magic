@@ -17,7 +17,7 @@
  * @prop {string} takeDesc
  */
 
-/** @typedef {'pay'|'gain'|'grant'|'drain'|'give'|'take'} unitMode */
+/** @typedef {'pay'|'gain'|'grant'|'drain'|'give'|'take'|'none'} unitMode */
 
 /**
  * @typedef {Object} rawSpell
@@ -37,6 +37,233 @@
  * @prop {{unit: unit, mode: unitMode, count: number}} input
  * @prop {{unit: unit, mode: unitMode, count: number}} output
  */
+
+class Fraction {
+  /**
+   * Creates a new Fraction instance.
+   * @param {number} numerator The numerator of the fraction.
+   * @param {number} denominator The denominator of the fraction.
+   * @throws {Error} If the denominator is zero.
+   */
+  constructor(numerator, denominator) {
+    if (denominator === 0) {
+      throw new Error('Denominator cannot be zero.')
+    }
+
+    // Ensure numerator and denominator are integers
+    this.numerator = Math.floor(numerator)
+    this.denominator = Math.floor(denominator)
+
+    // Handle negative signs: always keep negative on numerator
+    if (this.denominator < 0) {
+      this.numerator *= -1
+      this.denominator *= -1
+    }
+
+    this.simplify() // Simplify on creation
+  }
+
+  /**
+   * Calculates the greatest common divisor (GCD) using the Euclidean algorithm.
+   * @param {number} a
+   * @param {number} b
+   * @returns {number} The GCD of a and b.
+   * @private
+   */
+  _gcd(a, b) {
+    return b === 0 ? a : this._gcd(b, a % b)
+  }
+
+  /**
+   * Finds a best rational approximation for a given decimal value within a maximum denominator.
+   * This uses a continued fraction approach or iterative search.
+   * @param {number} value The decimal value to approximate.
+   * @param {number} maxDenominator The maximum denominator to consider for the approximation.
+   * @returns {object} An object { num: number, den: number } representing the best approximation found.
+   * @private
+   */
+  _findBestApproximation(value, maxDenominator) {
+    let bestNum = 0
+    let bestDen = 1
+    let minError = Math.abs(value - bestNum / bestDen)
+
+    for (let den = 1; den <= maxDenominator; den++) {
+      const num = Math.round(value * den)
+      const currentError = Math.abs(value - num / den)
+
+      if (currentError < minError) {
+        minError = currentError
+        bestNum = num
+        bestDen = den
+      }
+    }
+    return { num: bestNum, den: bestDen }
+  }
+
+  /**
+   * Attempts to approximate the fraction to a simpler form,
+   * such that the approximate fraction's value is within `tolerancePercent`
+   * of the original fraction's value.
+   *
+   * @param {number} tolerancePercent The maximum allowed percentage error (e.g., 5 for 5%).
+   *                                  Must be between 0 (exclusive) and 100 (exclusive).
+   * @param {number} [maxApproxDenominator=100] The maximum denominator to consider for the approximate fraction.
+   *                                            Higher values allow for more precise approximations but might not be "simpler".
+   * @returns {Fraction} A new Fraction instance representing the approximation, or the original
+   *                     fraction if no simpler approximation is found within the tolerance.
+   */
+  approximate(tolerancePercent, maxApproxDenominator = 100) {
+    if (tolerancePercent <= 0 || tolerancePercent >= 100)
+      throw new Error('Tolerance percent must be between 0 and 100 (exclusive).')
+
+    if (maxApproxDenominator < 1) throw new Error('Maximum approximation denominator must be at least 1.')
+
+    const originalValue = this.valueOf()
+    const maxError = Math.abs(originalValue) * (tolerancePercent / 100)
+
+    // Handle zero separately to avoid division by zero or complex logic
+    if (this.numerator === 0) return new Fraction(0, 1)
+
+    let bestApproxNum = this.numerator
+    let bestApproxDen = this.denominator
+    let bestComplexity = Math.abs(this.numerator) + this.denominator // A simple measure of complexity
+
+    // Iterate through possible denominators for the approximation
+    for (let den = 1; den <= maxApproxDenominator; den++) {
+      const num = Math.round(originalValue * den) // Closest integer numerator for this denominator
+      const approxValue = num / den
+
+      const error = Math.abs(originalValue - approxValue)
+
+      if (error <= maxError) {
+        // If within tolerance, check if it's "simpler"
+        // A simpler fraction has smaller numerator and denominator values,
+        // after simplification.
+        const candidateFraction = new Fraction(num, den)
+        const currentComplexity = Math.abs(candidateFraction.numerator) + candidateFraction.denominator
+
+        // Prioritize simpler fractions. If complexities are equal, prioritize accuracy.
+        if (
+          currentComplexity < bestComplexity ||
+          (currentComplexity === bestComplexity && error < Math.abs(originalValue - bestApproxNum / bestApproxDen))
+        ) {
+          bestApproxNum = candidateFraction.numerator
+          bestApproxDen = candidateFraction.denominator
+          bestComplexity = currentComplexity
+        }
+      }
+    }
+
+    // Return the best approximation found, or the original simplified fraction if no better
+    // approximation was within tolerance.
+    return new Fraction(bestApproxNum, bestApproxDen)
+  }
+
+  /**
+   * Simplifies the fraction by dividing the numerator and denominator by their GCD.
+   */
+  simplify() {
+    if (this.numerator === 0) {
+      this.denominator = 1 // 0/x simplifies to 0/1
+      return
+    }
+    const commonDivisor = this._gcd(Math.abs(this.numerator), this.denominator)
+    this.numerator /= commonDivisor
+    this.denominator /= commonDivisor
+  }
+
+  /**
+   * Adds another fraction or a number to this fraction.
+   * @param {Fraction|number} other The fraction or number to add.
+   * @returns {Fraction} A new Fraction instance representing the sum.
+   */
+  add(other) {
+    const otherFraction = other instanceof Fraction ? other : new Fraction(other, 1)
+
+    const newNumerator = this.numerator * otherFraction.denominator + otherFraction.numerator * this.denominator
+    const newDenominator = this.denominator * otherFraction.denominator
+
+    return new Fraction(newNumerator, newDenominator)
+  }
+
+  /**
+   * Subtracts another fraction or a number from this fraction.
+   * @param {Fraction|number} other The fraction or number to subtract.
+   * @returns {Fraction} A new Fraction instance representing the difference.
+   */
+  subtract(other) {
+    const otherFraction = other instanceof Fraction ? other : new Fraction(other, 1)
+
+    const newNumerator = this.numerator * otherFraction.denominator - otherFraction.numerator * this.denominator
+    const newDenominator = this.denominator * otherFraction.denominator
+
+    return new Fraction(newNumerator, newDenominator)
+  }
+
+  /**
+   * Multiplies this fraction by another fraction or a number.
+   * @param {Fraction|number} other The fraction or number to multiply by.
+   * @returns {Fraction} A new Fraction instance representing the product.
+   */
+  multiply(other) {
+    const otherFraction = other instanceof Fraction ? other : new Fraction(other, 1)
+
+    const newNumerator = this.numerator * otherFraction.numerator
+    const newDenominator = this.denominator * otherFraction.denominator
+
+    return new Fraction(newNumerator, newDenominator)
+  }
+
+  /**
+   * Divides this fraction by another fraction or a number.
+   * @param {Fraction|number} other The fraction or number to divide by.
+   * @returns {Fraction} A new Fraction instance representing the quotient.
+   * @throws {Error} If the divisor is zero.
+   */
+  divide(other) {
+    const otherFraction = other instanceof Fraction ? other : new Fraction(other, 1)
+
+    if (otherFraction.numerator === 0) throw new Error('Cannot divide by zero.')
+
+    // Division is multiplication by the reciprocal
+    const newNumerator = this.numerator * otherFraction.denominator
+    const newDenominator = this.denominator * otherFraction.numerator
+
+    return new Fraction(newNumerator, newDenominator)
+  }
+
+  /**
+   * Returns a string representation of the fraction.
+   * @returns {string} The fraction in "numerator/denominator" format.
+   */
+  toString() {
+    return `${this.numerator}/${this.denominator}`
+  }
+
+  /**
+   * Returns the decimal value of the fraction.
+   * @returns {number} The decimal representation.
+   */
+  valueOf() {
+    return this.numerator / this.denominator
+  }
+
+  /**
+   * Checks if this fraction is equal to another fraction or number.
+   * @param {Fraction|number} other
+   * @returns {boolean} True if the fractions are equal, false otherwise.
+   */
+  equals(other) {
+    const otherFraction = other instanceof Fraction ? other : new Fraction(other, 1)
+
+    // Simplify both before comparing to handle equivalent but unsimplified forms
+    // (e.g., 1/2 vs 2/4)
+    const f1 = new Fraction(this.numerator, this.denominator) // Create new to avoid modifying original
+    const f2 = new Fraction(otherFraction.numerator, otherFraction.denominator)
+
+    return f1.numerator === f2.numerator && f1.denominator === f2.denominator
+  }
+}
 
 export default /**
  * @param {HTMLCanvasElement} canvas
@@ -102,6 +329,7 @@ async (canvas, ctx, size, colorScheme) => {
   const prettyUnit = (x, capitalize = true) => {
     let str
     const { unit, mode, count } = x
+    if (unit.name === '') return ''
     if (mode === 'pay') str = unit.payDesc
     else if (mode === 'gain') str = unit.gainDesc
     else if (mode === 'grant') str = unit.grantDesc
@@ -116,18 +344,21 @@ async (canvas, ctx, size, colorScheme) => {
   }
 
   let lastSet = ''
+  let isDone = false
   const rawSpells =
     /** @type {rawSpell[]} */
     (
       (await (await fetch('../spells.md')).text())
         .split('### ')
         .map(rawUnit => {
+          if (isDone) return
           let set = lastSet
           const lines = rawUnit
             .split('\n')
             .filter(x => x)
             .map(x => x.trim())
             .map(line => {
+              if (line === 'BREAK') isDone = true
               if (/^## .*$/.test(line)) {
                 lastSet = line.match(/^## (.*)$/)?.[1] ?? ''
                 if (set === '') set = lastSet
@@ -163,12 +394,30 @@ async (canvas, ctx, size, colorScheme) => {
     )
 
   /**
-   * @param {number} T
-   * @param {number} A
-   * @param {number} B
-   * @returns {number}
+   * @param {number} tier
+   * @param {unit} inputUnit
+   * @param {unitMode} inputMode
+   * @param {unit} outputUnit
+   * @param {unitMode} outputMode
+   * @returns {Fraction}
    */
-  const calculateMult = (T, A, B) => (1 / Math.max(2 * B - A - T, 1)) * Math.max(2 * T - A - B, 1)
+  const calculate = (tier, inputUnit, inputMode, outputUnit, outputMode) => {
+    let inputValue = new Fraction(inputUnit.multiplier, 1)
+    if (inputMode === 'give') inputValue = inputValue.multiply(2)
+
+    if (inputUnit.tier < tier) inputValue = inputValue.multiply(tier - inputUnit.tier + 1)
+    if (inputUnit.tier > tier) inputValue = inputValue.divide((inputUnit.tier - tier + 1) ** 2)
+
+    inputValue = inputValue.add(tier)
+
+    let outputValue = new Fraction(outputUnit.multiplier, 1)
+    if (outputMode === 'take') outputValue = outputValue.multiply(2)
+
+    if (outputUnit.tier < tier) outputValue = outputValue.divide(tier - outputUnit.tier + 1)
+    if (outputUnit.tier > tier) outputValue = outputValue.multiply((outputUnit.tier - tier + 1) ** 2)
+
+    return inputValue.divide(outputValue).approximate(10)
+  }
 
   lastSet = ''
   /** @type {[String, spell[]][]} */
@@ -179,32 +428,21 @@ async (canvas, ctx, size, colorScheme) => {
      * @returns {[String, spell[]][]}
      */
     (prev, rawSpell) => {
-      const T = rawSpell.tier
-      const A = rawSpell.input.unit.tier
-      const B = rawSpell.output.unit.tier
-
-      const inputMult = rawSpell.input.mode === 'give' ? 2 : 1
-      const outputMult = rawSpell.output.mode === 'take' ? 2 : 1
-
-      const mult =
-        (((calculateMult(T, A, B) * inputMult) / outputMult) * rawSpell.input.unit.multiplier) /
-        rawSpell.output.unit.multiplier
-      let best = 0
-      for (let index = 1; index <= 100; index++) {
-        if (mult * index === Math.floor(mult * index)) {
-          best = index
-          break
-        }
-        if (index === 100) throw new Error('Uh oh')
-      }
+      const ratio = calculate(
+        rawSpell.tier,
+        rawSpell.input.unit,
+        rawSpell.input.mode,
+        rawSpell.output.unit,
+        rawSpell.output.mode
+      )
 
       /** @type {spell} */
       const spell = {
         name: rawSpell.name,
         tier: rawSpell.tier,
         flavor: rawSpell.flavor,
-        input: { unit: rawSpell.input.unit, mode: rawSpell.input.mode, count: best },
-        output: { unit: rawSpell.output.unit, mode: rawSpell.output.mode, count: mult * best }
+        input: { unit: rawSpell.input.unit, mode: rawSpell.input.mode, count: ratio.denominator },
+        output: { unit: rawSpell.output.unit, mode: rawSpell.output.mode, count: ratio.numerator }
       }
 
       if (rawSpell.set !== lastSet) {
@@ -260,7 +498,7 @@ async (canvas, ctx, size, colorScheme) => {
           ctx.font = 'italic bold 10px Sans'
           ctx.textAlign = 'left'
           ctx.textBaseline = 'bottom'
-          ctx.fillText(`L${spell.tier}`, 5, 75)
+          ctx.fillText(`T${spell.tier}`, 5, 75)
 
           ctx.font = '12px Sans'
           ctx.textBaseline = 'middle'

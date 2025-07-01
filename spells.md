@@ -9,7 +9,7 @@
 ### Unsafe Lab Conditions:
 * **Tier**: 2
 * **Input**: Pay Life
-* **Output**: Gain T5 Spells
+* **Output**: Gain T4 Spells
 * **Flavor**: "What matters if I cut corners? See what I have learned?"
 
 ### Advanced Composite Spells:
@@ -30,7 +30,7 @@
 * **Output**: Gain T3 Spells
 * **Flavor**: Disagreements put aside for the moment in search of greatness
 
-### Painful Trade:
+### Painful Deal:
 * **Tier**: 3
 * **Input**: Give Life
 * **Output**: Take T4 Spells
