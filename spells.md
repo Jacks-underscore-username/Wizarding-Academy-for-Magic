@@ -195,3 +195,99 @@
 * **Flavor**: "If you want it done right you've got to do it yourself"
 
 ## Base (3/4)
+
+### Basic Optimizations:
+* **Tier**: 1
+* **Input**: None
+* **Output**: Gain Mana Pay Discount
+* **Flavor**: The newer mages always make so many little mistakes, there's always something to be improved
+
+### Mana Channel:
+* **Tier**: 2
+* **Input**: None
+* **Output**: Gain Mana Gain Boost
+* **Flavor**: Once the flow of Mana has started it's easier to maintain
+
+### Blood in the Water:
+* **Tier**: 2
+* **Input**: Pay Life
+* **Output**: Gain Mana Gain Boost
+* **Flavor**: A little pain to show passion never hurts when drawing Mana from beyond
+
+### Artificial Limitations:
+* **Tier**: 2
+* **Input**: None
+* **Output**: Gain Mana Grant Discount
+* **Flavor**: "You hardly need so much Mana, be happy with what you've got"
+
+### Kick a Man While He's Down:
+* **Tier**: 2
+* **Input**: None 
+* **Output**: Gain Mana Drain Boost
+* **Flavor**: "With their defenses already down it's easy to take a little more"
+
+### Safety Equipment:
+* **Tier**: 3
+* **Input**: Pay Mana
+* **Output**: Gain Life Pay Discount
+* **Flavor**: Although rarely used, the school provides a vast collection of PPE for rent at a small charge
+
+### Join the Fight:
+* **Tier**: 3
+* **Input**: Pay Life
+* **Output**: Gain Life Drain Boost
+* **Flavor**: "What was I supposed to do? It was three against one"
+
+### Advanced Optimizations:
+* **Tier**: 3
+* **Input**: None
+* **Output**: Gain Mana Pay Discount
+* **Flavor**: "Why pay so much Mana when a little extra work cuts the price so much"
+
+### Poison the Health Potion:
+* **Tier**: 3
+* **Input**: Pay Life
+* **Output**: Gain Life Grant Discount
+* **Flavor**: "Why sure it'll heal you right up, no customer has complained yet!"
+
+### Forget the Payment:
+* **Tier**: 3
+* **Input**: None
+* **Output**: Gain Mana Grant Discount
+* **Flavor**: "Well you didn't *really* need that Mana anyway"
+
+### Overtax:
+* **Tier**: 3
+* **Input**: None
+* **Output**: Gain Mana Drain Boost
+* **Flavor**: "It's still the best price around" 
+
+### Poison the Poison:
+* **Tier**: 4
+* **Input**: None
+* **Output**: Gain Life Drain Boost
+* **Flavor**: "Whats better then poison? Poisoned poison!"
+
+### Taint the Mana Supply:
+* **Tier**: 4
+* **Input**: Give Mana 
+* **Output**: Gain Mana Drain Boost
+* **Flavor**: "A single drop of bad Mana can spoil the whole batch" --Old proverb
+
+### Premium Health Potion:
+* **Tier**: 4
+* **Input**: None
+* **Output**: Gain Life Gain Boost
+* **Flavor**: "This stuff tastes way better then the normal potion too"
+
+### Advanced Safety Equipment:
+* **Tier**: 4
+* **Input**: Pay Mana
+* **Output**: Gain Life Pay Discount
+* **Flavor**: "It's way better then anything the school provides"
+
+### Skip the Costs:
+* **Tier**: 5
+* **Input**: None
+* **Output**: Gain Mana Pay Discount
+* **Flavor**: "What's it going to do? Not work?"

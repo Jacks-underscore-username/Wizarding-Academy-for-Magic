@@ -1,3 +1,19 @@
+### :
+* **Tier**: 1
+* **Can pay**: yes 
+* **Can gain**: no
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0
+* **Pay description**:
+* **Gain description**:
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
 ### T1 Spells:
 * **Tier**: 1 
 * **Can pay**: yes 
@@ -94,22 +110,6 @@
 * **Give description**: Give target opponent X Mana
 * **Take description**: Take X Mana from target opponent
 
-### Mana Boost:
-* **Tier**: 2 
-* **Can pay**: no 
-* **Can gain**: yes
-* **Can grant**: no
-* **Can drain**: no
-* **Can give**: no
-* **Can take**: no
-* **Multiplier**: 1
-* **Pay description**: 
-* **Gain description**: Target other Mana producing spell in this compound makes X extra Mana as it resolves
-* **Grant description**:
-* **Drain description**:
-* **Give description**:
-* **Take description**:
-
 ### Life:
 * **Tier**: 2 
 * **Can pay**: yes 
@@ -126,17 +126,129 @@
 * **Give description**: Give target opponent X life
 * **Take description**: Take X life from target opponent
 
-### :
+### Mana Gain Boost:
 * **Tier**: 1
-* **Can pay**: yes 
-* **Can gain**: no
+* **Can pay**: no 
+* **Can gain**: yes
 * **Can grant**: no
 * **Can drain**: no
 * **Can give**: no
 * **Can take**: no
-* **Multiplier**: 0
-* **Pay description**:
-* **Gain description**:
+* **Multiplier**: 0.5
+* **Pay description**: 
+* **Gain description**: Target other spell that makes you gain Mana in this compound makes you gain X extra Mana as it resolves
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Life Gain Boost:
+* **Tier**: 2
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Target other spell that makes you gain life in this compound makes you gain X extra life as it resolves
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Mana Pay Discount:
+* **Tier**: 2
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0.5
+* **Pay description**: 
+* **Gain description**: Target other spell that makes you pay Mana in this compound costs X less Mana to resolve
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Life Pay Discount:
+* **Tier**: 3
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Target other spell that makes you pay life in this compound costs X less life to resolve
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Mana Grant Discount:
+* **Tier**: 1
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0.5
+* **Pay description**: 
+* **Gain description**: Target other spell that makes an opponent gain Mana in this compound makes them gain X less Mana to resolve
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Life Grant Discount:
+* **Tier**: 2
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Target other spell that makes an opponent gain life in this compound makes them gain X less life to resolve
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Mana Drain Boost:
+* **Tier**: 2
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 0.5
+* **Pay description**: 
+* **Gain description**: Target other spell that makes an opponent lose Mana in this compound makes them lose X more Mana as it resolves
+* **Grant description**:
+* **Drain description**:
+* **Give description**:
+* **Take description**:
+
+### Life Drain Boost:
+* **Tier**: 3
+* **Can pay**: no 
+* **Can gain**: yes
+* **Can grant**: no
+* **Can drain**: no
+* **Can give**: no
+* **Can take**: no
+* **Multiplier**: 1
+* **Pay description**: 
+* **Gain description**: Target other spell that makes an opponent lose life in this compound makes them lose X more life as it resolves
 * **Grant description**:
 * **Drain description**:
 * **Give description**:

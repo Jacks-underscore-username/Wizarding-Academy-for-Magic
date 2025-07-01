@@ -46,13 +46,16 @@ class Fraction {
    * @throws {Error} If the denominator is zero.
    */
   constructor(numerator, denominator) {
-    if (denominator === 0) {
-      throw new Error('Denominator cannot be zero.')
-    }
+    if (denominator === 0) throw new Error('Denominator cannot be zero.')
+
+    this.numerator = numerator
+    this.denominator = denominator
 
     // Ensure numerator and denominator are integers
-    this.numerator = Math.floor(numerator)
-    this.denominator = Math.floor(denominator)
+    while (this.numerator !== Math.floor(this.numerator) || this.denominator !== Math.floor(this.denominator)) {
+      this.numerator *= 10
+      this.denominator *= 10
+    }
 
     // Handle negative signs: always keep negative on numerator
     if (this.denominator < 0) {
@@ -454,6 +457,18 @@ async (canvas, ctx, size, colorScheme) => {
     },
     []
   )
+
+  const unusedUnits = Array.from(
+    units
+      .keys()
+      .filter(name =>
+        spells.every(set => set[1].every(spell => spell.input.unit.name !== name && spell.output.unit.name !== name))
+      )
+  )
+  if (unusedUnits.length)
+    console.warn(
+      `${unusedUnits.length} unit${unusedUnits.length === 1 ? ' is' : 's are'} unused: ${unusedUnits.map(name => `\n * ${name}`)}`
+    )
 
   /**
    * @param {spell[]} spellSet
