@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const page = document.getElementById('page_content')
   for (const unit of spellsModule.units.values()) {
     const wrapper = document.createElement('div')
+    wrapper.addEventListener('click', () => wrapper.classList.toggle('open'))
     wrapper.classList.add('unit_wrapper')
     const title = document.createElement('div')
     title.classList.add('title')
