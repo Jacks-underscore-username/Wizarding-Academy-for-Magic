@@ -29,6 +29,7 @@
  * @prop {{unit: unit, mode: unitMode}} input
  * @prop {{unit: unit, mode: unitMode}} output
  * @prop {string} set
+ * @prop {number} powerBoost
  */
 
 /**
@@ -38,6 +39,7 @@
  * @prop {string} flavor
  * @prop {{unit: unit, mode: unitMode, count: number}} input
  * @prop {{unit: unit, mode: unitMode, count: number}} output
+ * @prop {number} powerBoost
  */
 
 class Fraction {
@@ -77,32 +79,6 @@ class Fraction {
    */
   _gcd(a, b) {
     return b === 0 ? a : this._gcd(b, a % b)
-  }
-
-  /**
-   * Finds a best rational approximation for a given decimal value within a maximum denominator.
-   * This uses a continued fraction approach or iterative search.
-   * @param {number} value The decimal value to approximate.
-   * @param {number} maxDenominator The maximum denominator to consider for the approximation.
-   * @returns {object} An object { num: number, den: number } representing the best approximation found.
-   * @private
-   */
-  _findBestApproximation(value, maxDenominator) {
-    let bestNum = 0
-    let bestDen = 1
-    let minError = Math.abs(value - bestNum / bestDen)
-
-    for (let den = 1; den <= maxDenominator; den++) {
-      const num = Math.round(value * den)
-      const currentError = Math.abs(value - num / den)
-
-      if (currentError < minError) {
-        minError = currentError
-        bestNum = num
-        bestDen = den
-      }
-    }
-    return { num: bestNum, den: bestDen }
   }
 
   /**
@@ -354,53 +330,52 @@ async (canvas, ctx, size, colorScheme) => {
 
   let lastSet = ''
   let isDone = false
-  const rawSpells =
-    /** @type {rawSpell[]} */
-    (
-      (await (await fetch('../spells.md')).text())
-        .split('### ')
-        .map(rawUnit => {
-          if (isDone) return
-          let set = lastSet
-          const lines = rawUnit
-            .split('\n')
-            .filter(x => x)
-            .map(x => x.trim())
-            .map(line => {
-              if (line === 'BREAK') isDone = true
-              if (/^## .*$/.test(line)) {
-                lastSet = line.match(/^## (.*)$/)?.[1] ?? ''
-                if (set === '') set = lastSet
-                return ''
-              }
-              return line
-            })
-            .filter(line => line)
-          if (!lines.length) return
-          const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
-          const tier = /** @type {1|2|3|4|5} */ (
-            Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
-          )
-          const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
-          const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
-          const outputName = (lines[0] ?? '').match(/^\* \*\*Output\*\*: \S+ (.*)$/)?.[1] ?? ''
-          const outputMode = (lines.shift() ?? '').match(/^\* \*\*Output\*\*: (\S+) .*$/)?.[1] ?? ''
-          const flavor = (lines.shift() ?? '').match(/^\* \*\*Flavor\*\*: (.*)$/)?.[1] ?? ''
-          const inputUnit = units.get(inputName)
-          const outputUnit = units.get(outputName)
-          if (inputUnit === undefined) throw new Error(`Unknown unit "${inputName}"`)
-          if (outputUnit === undefined) throw new Error(`Unknown unit "${outputName}"`)
-          return {
-            name,
-            tier,
-            input: { unit: inputUnit, mode: /** @type {unitMode} */ (inputMode.toLowerCase()) },
-            output: { unit: outputUnit, mode: /** @type {unitMode} */ (outputMode.toLowerCase()) },
-            flavor,
-            set
+  /** @type {rawSpell[]} */
+  const rawSpells = (await (await fetch('../spells.md')).text())
+    .split('### ')
+    .map(rawUnit => {
+      if (isDone) return
+      let set = lastSet
+      const lines = rawUnit
+        .split('\n')
+        .filter(x => x)
+        .map(x => x.trim())
+        .map(line => {
+          if (line === 'BREAK') isDone = true
+          if (/^## .*$/.test(line)) {
+            lastSet = line.match(/^## (.*)$/)?.[1] ?? ''
+            if (set === '') set = lastSet
+            return ''
           }
+          return line
         })
-        .filter(spell => spell)
-    )
+        .filter(line => line)
+      if (!lines.length) return
+      const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
+      const tier = /** @type {1|2|3|4|5} */ (
+        Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
+      )
+      const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
+      const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
+      const outputName = (lines[0] ?? '').match(/^\* \*\*Output\*\*: \S+ (.*)$/)?.[1] ?? ''
+      const outputMode = (lines.shift() ?? '').match(/^\* \*\*Output\*\*: (\S+) .*$/)?.[1] ?? ''
+      const flavor = (lines.shift() ?? '').match(/^\* \*\*Flavor\*\*: (.*)$/)?.[1] ?? ''
+      const powerBoost = Number.parseInt((lines.shift() ?? '').match(/^\* \*\*Power Boost\*\*: (.*)$/)?.[1] ?? '')
+      const inputUnit = units.get(inputName)
+      const outputUnit = units.get(outputName)
+      if (inputUnit === undefined) throw new Error(`Unknown unit "${inputName}"`)
+      if (outputUnit === undefined) throw new Error(`Unknown unit "${outputName}"`)
+      return {
+        name,
+        tier,
+        input: { unit: inputUnit, mode: /** @type {unitMode} */ (inputMode.toLowerCase()) },
+        output: { unit: outputUnit, mode: /** @type {unitMode} */ (outputMode.toLowerCase()) },
+        flavor,
+        set,
+        powerBoost
+      }
+    })
+    .filter(spell => spell !== undefined)
 
   /**
    * @param {number} tier
@@ -450,8 +425,17 @@ async (canvas, ctx, size, colorScheme) => {
         name: rawSpell.name,
         tier: rawSpell.tier,
         flavor: rawSpell.flavor,
-        input: { unit: rawSpell.input.unit, mode: rawSpell.input.mode, count: ratio.denominator },
-        output: { unit: rawSpell.output.unit, mode: rawSpell.output.mode, count: ratio.numerator }
+        input: {
+          unit: rawSpell.input.unit,
+          mode: rawSpell.input.mode,
+          count: ratio.denominator * (rawSpell.powerBoost + 1)
+        },
+        output: {
+          unit: rawSpell.output.unit,
+          mode: rawSpell.output.mode,
+          count: ratio.numerator * (rawSpell.powerBoost + 1)
+        },
+        powerBoost: rawSpell.powerBoost
       }
 
       if (rawSpell.set !== lastSet) {
@@ -527,26 +511,34 @@ async (canvas, ctx, size, colorScheme) => {
           ctx.stroke()
 
           ctx.beginPath()
-          ctx.moveTo(0, 60)
-          ctx.lineTo(250, 60)
+          ctx.moveTo(0, 75)
+          ctx.lineTo(250, 75)
           ctx.stroke()
 
           ctx.font = 'italic bold 10px Sans'
           ctx.textAlign = 'left'
           ctx.textBaseline = 'bottom'
-          ctx.fillText(`T${spell.tier}`, 5, 75)
+          ctx.fillText(`T${spell.tier}`, 5, 90)
 
           ctx.font = '12px Sans'
           ctx.textBaseline = 'middle'
           ctx.textAlign = 'center'
-          ctx.fillText(prettyUnit(spell.input), 250 / 2, 50, 240)
+          const cost = prettyUnit(spell.input)
+          if (ctx.measureText(cost).width > 230) {
+            let splitPoint
+            for (let index = 1; splitPoint === undefined; index++)
+              if (cost[Math.floor(cost.length / 2) + Math.ceil(index / 2) * (index % 2 ? 1 : -1)] === ' ')
+                splitPoint = Math.floor(cost.length / 2) + Math.ceil(index / 2) * (index % 2 ? 1 : -1)
+            ctx.fillText(cost.slice(0, splitPoint), 250 / 2, 50, 240)
+            ctx.fillText(cost.slice(splitPoint), 250 / 2, 65, 240)
+          } else ctx.fillText(prettyUnit(spell.input), 250 / 2, 57, 240)
 
           ctx.beginPath()
-          ctx.arc(125, 150, 75, 0, Math.PI * 2)
+          ctx.arc(125, 165, 75, 0, Math.PI * 2)
           ctx.stroke()
 
           ctx.font = 'italic bold 15px Sans'
-          ctx.fillText('Place Rune Here', 125, 150)
+          ctx.fillText('Place Rune Here', 125, 165)
 
           const flavorLines = []
           if (spell.flavor !== undefined) {
