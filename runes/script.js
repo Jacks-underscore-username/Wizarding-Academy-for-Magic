@@ -9,6 +9,7 @@ const runesModule = rawRunesModule(canvas, ctx, size, padding, colorScheme)
 let index = 0
 let front = false
 let bulk = false
+let flip = false
 
 const maxPageSize = 70
 
@@ -37,7 +38,7 @@ const getRuneSet = index =>
  * @param {number} index
  */
 const updateRunes = index => {
-  runesModule.drawRuneImages(getRuneSet(index), front)
+  runesModule.drawRuneImages(getRuneSet(index), front, flip)
   nameElement.textContent = getName(index)
 }
 updateRunes(index)
@@ -90,5 +91,10 @@ document.getElementById('toggle_side_button')?.addEventListener('click', () => {
 document.getElementById('toggle_bulk_button')?.addEventListener('click', () => {
   bulk = !bulk
   index = 0
+  updateRunes(index)
+})
+
+document.getElementById('flip_button')?.addEventListener('click', () => {
+  flip = !flip
   updateRunes(index)
 })

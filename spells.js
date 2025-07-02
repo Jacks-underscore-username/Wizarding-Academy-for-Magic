@@ -251,7 +251,7 @@ export default /**
  * @param {CanvasRenderingContext2D} ctx
  * @param {Number} size
  * @param {import("./config").colorScheme} colorScheme
- * @returns {Promise<{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number, units: Map<String, unit>}>}
+ * @returns {Promise<{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean, flip?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number, units: Map<String, unit>}>}
  */
 async (canvas, ctx, size, colorScheme) => {
   /** @type {Map<String, unit>} */
@@ -478,8 +478,9 @@ async (canvas, ctx, size, colorScheme) => {
   /**
    * @param {spell[]} spellSet
    * @param {boolean} [front]
+   * @param {boolean} [flip]
    */
-  const drawSpellImages = (spellSet, front = false) => {
+  const drawSpellImages = (spellSet, front = false, flip = false) => {
     const scale = 3
     const [gridWidth, gridHeight] = (() => {
       for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === spellSet.length) return [x, y]
@@ -489,7 +490,7 @@ async (canvas, ctx, size, colorScheme) => {
     canvas.height = 350 * scale * gridHeight
     ctx.scale(scale, scale)
     for (let y = 0; y < gridHeight; y++)
-      for (let x = 0; x < gridWidth; x++) {
+      for (let x = flip ? gridWidth - 1 : 0; flip ? x >= 0 : x < gridWidth; flip ? x-- : x++) {
         ctx.fillStyle = colorScheme.backgroundColor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -589,9 +590,8 @@ async (canvas, ctx, size, colorScheme) => {
             ctx.fillText(descriptionLines[descriptionLines.length - index - 1], 10, 340 - index * 10 - flavorHeight)
         }
 
-        if (x === gridWidth - 1) {
-          ctx.translate(-250 * (gridWidth - 1), 350)
-        } else ctx.translate(250, 0)
+        if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-250 * (gridWidth - 1), 350)
+        else ctx.translate(250, 0)
       }
     if (!front) return
     ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -601,7 +601,7 @@ async (canvas, ctx, size, colorScheme) => {
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (let y = 0; y < gridHeight; y++)
-      for (let x = gridWidth - 1; x >= 0; x--) {
+      for (let x = flip ? gridWidth - 1 : 0; flip ? x >= 0 : x < gridWidth; flip ? x-- : x++) {
         ctx.fillStyle = colorScheme.backgroundColor
         ctx.fillRect(0, 0, 250, 350)
 
@@ -618,9 +618,8 @@ async (canvas, ctx, size, colorScheme) => {
           ctx.shadowBlur = 0
         }
 
-        if (x === 0) {
-          ctx.translate(-250 * (gridWidth - 1), 350)
-        } else ctx.translate(250, 0)
+        if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-250 * (gridWidth - 1), 350)
+        else ctx.translate(250, 0)
       }
   }
 

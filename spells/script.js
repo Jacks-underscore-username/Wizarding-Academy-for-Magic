@@ -9,6 +9,7 @@ document.fonts.ready.then(async () => {
   let index = 0
   let front = false
   let bulk = false
+  let flip = false
 
   const maxPageSize = 70
 
@@ -37,7 +38,7 @@ document.fonts.ready.then(async () => {
    * @param {number} index
    */
   const updateSpells = index => {
-    spellsModule.drawSpellImages(getSpellSet(index), front)
+    spellsModule.drawSpellImages(getSpellSet(index), front, flip)
     nameElement.textContent = getName(index)
   }
   updateSpells(index)
@@ -90,6 +91,11 @@ document.fonts.ready.then(async () => {
   document.getElementById('toggle_bulk_button')?.addEventListener('click', () => {
     bulk = !bulk
     index = 0
+    updateSpells(index)
+  })
+
+  document.getElementById('flip_button')?.addEventListener('click', () => {
+    flip = !flip
     updateSpells(index)
   })
 })

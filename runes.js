@@ -5,7 +5,7 @@ export default /**
  * @param {Number} size
  * @param {Number} padding
  * @param {import("./config").colorScheme} colorScheme
- * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, drawRuneImages: (runeSet: rune[], front?: boolean) => void, downloadCanvas: (name: string) => void, totalRuneCount: number}}
+ * @returns {{runes: [String, rune[]][], drawRune: (rune: rune, drawBackground1 = true, drawBackground2 = true) => void, drawRuneTree: (runeSet: rune[]) => void, drawRuneImages: (runeSet: rune[], front?: boolean, flip?: boolean) => void, downloadCanvas: (name: string) => void, totalRuneCount: number}}
  */
 (canvas, ctx, size, padding, colorScheme) => {
   /** @typedef {{scale: number, offsetX: number, offsetY: number}} normalizationValue */
@@ -1303,8 +1303,9 @@ export default /**
   /**
    * @param {rune[]} runeSet
    * @param {boolean} [front]
+   * @param {boolean} [flip]
    */
-  const drawRuneImages = (runeSet, front = false) => {
+  const drawRuneImages = (runeSet, front = false, flip = false) => {
     const scale = 3
     const [gridWidth, gridHeight] = (() => {
       for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === runeSet.length) return [x, y]
@@ -1314,14 +1315,13 @@ export default /**
     canvas.height = size * scale * gridHeight
     ctx.scale(scale, scale)
     for (let y = 0; y < gridHeight; y++)
-      for (let x = 0; x < gridWidth; x++) {
+      for (let x = flip ? gridWidth - 1 : 0; flip ? x >= 0 : x < gridWidth; flip ? x-- : x++) {
         const rune = runeSet[y * gridWidth + x]
 
         if (rune) drawRune(rune)
 
-        if (x === gridWidth - 1) {
-          ctx.translate(-size * (gridWidth - 1), size)
-        } else ctx.translate(size, 0)
+        if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-size * (gridWidth - 1), size)
+        else ctx.translate(size, 0)
       }
     if (!front) return
     ctx.setTransform(1, 0, 0, 1, 0, 0)
@@ -1331,7 +1331,7 @@ export default /**
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (let y = 0; y < gridHeight; y++)
-      for (let x = gridWidth - 1; x >= 0; x--) {
+      for (let x = flip ? gridWidth - 1 : 0; flip ? x >= 0 : x < gridWidth; flip ? x-- : x++) {
         const lineCount = runeSet[y * gridWidth + x]?.tier
         if (lineCount !== undefined) {
           ctx.fillStyle = colorScheme.outsideColor
@@ -1352,7 +1352,7 @@ export default /**
           ctx.fillText('Rune', size / 2, size * 0.85)
         }
 
-        if (x === 0) ctx.translate(-size * (gridWidth - 1), size)
+        if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-size * (gridWidth - 1), size)
         else ctx.translate(size, 0)
       }
   }
