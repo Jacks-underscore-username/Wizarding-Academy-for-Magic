@@ -6,7 +6,7 @@ const size = window.innerWidth / 10
 document.fonts.ready.then(async () => {
   const spellsModule = await rawSpellsModule(canvas, ctx, size, colorScheme)
 
-  let index = 3
+  let index = 0
   let front = false
   let bulk = false
 

@@ -601,7 +601,7 @@ async (canvas, ctx, size, colorScheme) => {
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (let y = 0; y < gridHeight; y++)
-      for (let x = 0; x < gridWidth; x++) {
+      for (let x = gridWidth - 1; x >= 0; x--) {
         ctx.fillStyle = colorScheme.backgroundColor
         ctx.fillRect(0, 0, 250, 350)
 
@@ -618,7 +618,7 @@ async (canvas, ctx, size, colorScheme) => {
           ctx.shadowBlur = 0
         }
 
-        if (x === gridWidth - 1) {
+        if (x === 0) {
           ctx.translate(-250 * (gridWidth - 1), 350)
         } else ctx.translate(250, 0)
       }

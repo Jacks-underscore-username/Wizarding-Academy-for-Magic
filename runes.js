@@ -1331,7 +1331,7 @@ export default /**
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
     for (let y = 0; y < gridHeight; y++)
-      for (let x = 0; x < gridWidth; x++) {
+      for (let x = gridWidth - 1; x >= 0; x--) {
         const lineCount = runeSet[y * gridWidth + x]?.tier
         if (lineCount !== undefined) {
           ctx.fillStyle = colorScheme.outsideColor
@@ -1352,7 +1352,7 @@ export default /**
           ctx.fillText('Rune', size / 2, size * 0.85)
         }
 
-        if (x === gridWidth - 1) ctx.translate(-size * (gridWidth - 1), size)
+        if (x === 0) ctx.translate(-size * (gridWidth - 1), size)
         else ctx.translate(size, 0)
       }
   }
