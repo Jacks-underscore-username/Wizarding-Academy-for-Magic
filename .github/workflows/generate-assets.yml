@@ -25,17 +25,7 @@ jobs:
       - name: Run asset generation script
         run: bun generateAssets.js
 
-      - name: Check for changes
-        id: git_status
-        run: |
-          if git diff --exit-code; then
-            echo "NO_CHANGES=true" >> $GITHUB_OUTPUT
-          else
-            echo "NO_CHANGES=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Commit and push generated assets
-        if: steps.git_status.outputs.NO_CHANGES == 'false'
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
