@@ -32,7 +32,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add -A
+          git add assets -f
           git commit -m "[WORKFLOW]: Generated assets"
           git push
         env:

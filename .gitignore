@@ -1,5 +1,6 @@
 node_modules
 assets
 bun.lockb
+bun.lock
 jsconfig.json
 biome.jsonc
