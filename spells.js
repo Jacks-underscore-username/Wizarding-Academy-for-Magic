@@ -246,17 +246,36 @@ class Fraction {
   }
 }
 
+/**
+ * @param {string} filePath
+ * @param {typeof import('node:fs')} [fs]
+ * @returns {string}
+ */
+const loadTextFileSync = (filePath, fs) => {
+  if (fs !== undefined) return fs.readFileSync(filePath, 'utf8')
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', filePath, false)
+  try {
+    xhr.send()
+    if (xhr.status >= 200 && xhr.status < 300) return xhr.responseText
+    throw new Error(`Error loading file synchronously: HTTP status ${xhr.status}`)
+  } catch (error) {
+    throw new Error(`Network error during synchronous file load: ${error}`)
+  }
+}
+
 export default /**
- * @param {HTMLCanvasElement} canvas
- * @param {CanvasRenderingContext2D} ctx
+ * @param {HTMLCanvasElement | import('canvas').Canvas} canvas
+ * @param {CanvasRenderingContext2D | import('canvas').CanvasRenderingContext2D} ctx
  * @param {Number} size
  * @param {import("./config").colorScheme} colorScheme
- * @returns {Promise<{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean, flip?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number, units: Map<String, unit>}>}
+ * @param {typeof import('node:fs')} [fs]
+ * @returns {{spells: [String, spell[]][], drawSpellImages: (spellSet: spell[], front?: boolean, flip?: boolean) => void, downloadCanvas: (name: string) => void, totalSpellCount: number, units: Map<String, unit>}}
  */
-async (canvas, ctx, size, colorScheme) => {
+(canvas, ctx, size, colorScheme, fs) => {
   /** @type {Map<String, unit>} */
   const units = new Map(
-    (await (await fetch('../units.md')).text())
+    loadTextFileSync('../units.md', fs)
       .split('### ')
       .filter(x => x)
       .map(rawUnit => {
@@ -331,7 +350,7 @@ async (canvas, ctx, size, colorScheme) => {
   let lastSet = ''
   let isDone = false
   /** @type {rawSpell[]} */
-  const rawSpells = (await (await fetch('../spells.md')).text())
+  const rawSpells = loadTextFileSync('../spells.md', fs)
     .split('### ')
     .map(rawUnit => {
       if (isDone) return
@@ -480,7 +499,7 @@ async (canvas, ctx, size, colorScheme) => {
    * @param {boolean} [front]
    * @param {boolean} [flip]
    */
-  const drawSpellImages = (spellSet, front = false, flip = false) => {
+  const drawSpellImages = (spellSet, front = true, flip = false) => {
     const scale = 3
     const [gridWidth, gridHeight] = (() => {
       for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === spellSet.length) return [x, y]
@@ -593,7 +612,7 @@ async (canvas, ctx, size, colorScheme) => {
         if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-250 * (gridWidth - 1), 350)
         else ctx.translate(250, 0)
       }
-    if (!front) return
+    if (front) return
     ctx.setTransform(1, 0, 0, 1, 0, 0)
     ctx.scale(scale, scale)
     ctx.fillStyle = colorScheme.outsideColor
@@ -614,7 +633,7 @@ async (canvas, ctx, size, colorScheme) => {
           ctx.shadowColor = ctx.fillStyle
           ctx.shadowBlur = size / 2
           ctx.font = 'bold 150px Pirata One'
-          ctx.fillText(`L${spell.tier}`, 250 / 2, 350 * 0.55)
+          ctx.fillText(`T ${spell.tier}`, 250 / 2, 350 * 0.55)
           ctx.shadowBlur = 0
         }
 

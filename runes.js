@@ -1,7 +1,7 @@
 /** @typedef {{func: () => void, tier:1|2|3|4|5}} rune */
 export default /**
- * @param {HTMLCanvasElement} canvas
- * @param {CanvasRenderingContext2D} ctx
+ * @param {HTMLCanvasElement | import('canvas').Canvas} canvas
+ * @param {CanvasRenderingContext2D | import('canvas').CanvasRenderingContext2D} ctx
  * @param {Number} size
  * @param {Number} padding
  * @param {import("./config").colorScheme} colorScheme
@@ -1305,7 +1305,7 @@ export default /**
    * @param {boolean} [front]
    * @param {boolean} [flip]
    */
-  const drawRuneImages = (runeSet, front = false, flip = false) => {
+  const drawRuneImages = (runeSet, front = true, flip = false) => {
     const scale = 3
     const [gridWidth, gridHeight] = (() => {
       for (let x = 10; x >= 0; x--) for (let y = 7; y >= 0; y--) if (x * y === runeSet.length) return [x, y]
@@ -1323,7 +1323,7 @@ export default /**
         if (x === (flip ? 0 : gridWidth - 1)) ctx.translate(-size * (gridWidth - 1), size)
         else ctx.translate(size, 0)
       }
-    if (!front) return
+    if (front) return
     ctx.setTransform(1, 0, 0, 1, 0, 0)
     ctx.scale(scale, scale)
     ctx.fillStyle = colorScheme.outsideColor
@@ -1346,7 +1346,7 @@ export default /**
           ctx.shadowColor = ctx.fillStyle
           ctx.shadowBlur = size / 2
           ctx.font = `bold ${size / 2}px Pirata One`
-          ctx.fillText(`L${lineCount}`, size / 2, size * 0.55)
+          ctx.fillText(`T ${lineCount}`, size / 2, size * 0.55)
           ctx.shadowBlur = 0
           ctx.font = `bold italic ${size / 6}px Pirata One`
           ctx.fillText('Rune', size / 2, size * 0.85)

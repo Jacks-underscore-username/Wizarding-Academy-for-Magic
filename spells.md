@@ -1,10 +1,10 @@
 ## Base (1/4)
 
-### Composite Spells:
+### Basic Research:
 * **Tier**: 1
-* **Input**: Pay T1 Spells
+* **Input**: Pay Mana
 * **Output**: Gain T2 Spells
-* **Flavor**: "A little of this, a little of that..."
+* **Flavor**: Spellwork 101
 * **Power Boost**: 0
 
 ### Unsafe Lab Conditions:
@@ -14,11 +14,11 @@
 * **Flavor**: "What matters if I cut corners? See what I have learned?"
 * **Power Boost**: 0
 
-### Advanced Composite Spells:
+### Composite Spells:
 * **Tier**: 2
-* **Input**: Pay T1 Spells
+* **Input**: Pay T2 Spells
 * **Output**: Gain T3 Spells
-* **Flavor**: "But maybe less of that..."
+* **Flavor**: "A little of this, a little of that..."
 * **Power Boost**: 0
 
 ### Fancy Tools:
@@ -35,11 +35,11 @@
 * **Flavor**: Disagreements put aside for the moment in search of greatness
 * **Power Boost**: 0
 
-### Painful Deal:
+### Gather Ingredients:
 * **Tier**: 3
-* **Input**: Give Life
-* **Output**: Take T4 Spells
-* **Flavor**: "It's better then wasting that life on research"
+* **Input**: None
+* **Output**: Gain Mana
+* **Flavor**: "Why do we have to waste so much time on this again?"
 * **Power Boost**: 0
 
 ### Lab Distraction:

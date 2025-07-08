@@ -7,7 +7,7 @@ const padding = 25
 const runesModule = rawRunesModule(canvas, ctx, size, padding, colorScheme)
 
 let index = 0
-let front = false
+let front = true
 let bulk = false
 let flip = false
 
