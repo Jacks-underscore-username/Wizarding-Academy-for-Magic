@@ -4,7 +4,8 @@ const Canvas = require('canvas')
 
 Canvas.registerFont('PirataOne-Regular.ttf', { family: 'Pirata One' })
 
-process.chdir(path.join(__dirname, 'assets'))
+if (!fs.existsSync('assets')) fs.mkdirSync('assets')
+process.chdir('assets')
 
 import rawSpellsModule from './spells.js'
 import rawRunesModule from './runes.js'
