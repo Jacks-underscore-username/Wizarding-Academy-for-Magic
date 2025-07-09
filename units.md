@@ -200,7 +200,7 @@
 * **Can take**: no
 * **Multiplier**: 0.5
 * **Pay description**: 
-* **Gain description**: Target other spell that makes an opponent gain Mana in this compound makes them gain X less Mana to resolve
+* **Gain description**: Target other spell that makes an opponent gain Mana in this compound spell makes them gain X less Mana to resolve
 * **Grant description**:
 * **Drain description**:
 * **Give description**:
