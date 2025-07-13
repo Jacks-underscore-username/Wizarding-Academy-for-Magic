@@ -417,7 +417,7 @@ export default /**
     if (inputMode === 'give') inputValue = inputValue.multiply(2)
 
     if (inputUnit.tier < tier) inputValue = inputValue.multiply(unitEMBoosts[tier - inputUnit.tier - 1])
-    if (inputUnit.tier > tier) inputValue = inputValue.divide(unitEMNerfs(inputUnit.tier - tier - 1))
+    if (inputUnit.tier > tier) inputValue = inputValue.divide(unitEMNerfs[inputUnit.tier - tier - 1])
 
     inputValue = inputValue.multiply(powerBoost + 1)
 
@@ -426,8 +426,8 @@ export default /**
     let outputValue = new Fraction(outputUnit.multiplier, 1)
     if (outputMode === 'take') outputValue = outputValue.multiply(2)
 
-    if (outputUnit.tier < tier) outputValue = outputValue.divide(unitEMBoosts(tier - outputUnit.tier - 1))
-    if (outputUnit.tier > tier) outputValue = outputValue.multiply(unitEMNerfs(outputUnit.tier - tier + 1))
+    if (outputUnit.tier < tier) outputValue = outputValue.divide(unitEMBoosts[tier - outputUnit.tier - 1])
+    if (outputUnit.tier > tier) outputValue = outputValue.multiply(unitEMNerfs[outputUnit.tier - tier + 1])
 
     outputValue = outputValue.multiply(powerBoost + 1)
 
