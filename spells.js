@@ -264,6 +264,13 @@ const loadTextFileSync = (filePath, fs) => {
   }
 }
 
+/** @type {number[]} */
+const spellEMs = [1, 1.1, 1.25, 1.5, 2]
+/** @type {number[]} */
+const unitEMBoosts = [1.1, 1.2, 1.3, 1.4]
+/** @type {number[]} */
+const unitEMNerfs = [1.25, 1.5, 2, 3]
+
 export default /**
  * @param {HTMLCanvasElement | import('canvas').Canvas} canvas
  * @param {CanvasRenderingContext2D | import('canvas').CanvasRenderingContext2D} ctx
@@ -409,8 +416,8 @@ export default /**
     let inputValue = new Fraction(inputUnit.multiplier, 1)
     if (inputMode === 'give') inputValue = inputValue.multiply(2)
 
-    if (inputUnit.tier < tier) inputValue = inputValue.multiply(tier - inputUnit.tier + 1)
-    if (inputUnit.tier > tier) inputValue = inputValue.divide((inputUnit.tier - tier + 1) ** 2)
+    if (inputUnit.tier < tier) inputValue = inputValue.multiply(unitEMBoosts[tier - inputUnit.tier - 1])
+    if (inputUnit.tier > tier) inputValue = inputValue.divide(unitEMNerfs(inputUnit.tier - tier - 1))
 
     inputValue = inputValue.multiply(powerBoost + 1)
 
@@ -419,10 +426,12 @@ export default /**
     let outputValue = new Fraction(outputUnit.multiplier, 1)
     if (outputMode === 'take') outputValue = outputValue.multiply(2)
 
-    if (outputUnit.tier < tier) outputValue = outputValue.divide(tier - outputUnit.tier + 1)
-    if (outputUnit.tier > tier) outputValue = outputValue.multiply((outputUnit.tier - tier + 1) ** 2)
+    if (outputUnit.tier < tier) outputValue = outputValue.divide(unitEMBoosts(tier - outputUnit.tier - 1))
+    if (outputUnit.tier > tier) outputValue = outputValue.multiply(unitEMNerfs(outputUnit.tier - tier + 1))
 
     outputValue = outputValue.multiply(powerBoost + 1)
+
+    outputValue = outputValue.multiply(spellEMs[tier - 1])
 
     return inputValue.divide(outputValue).approximate(10)
   }
@@ -493,7 +502,7 @@ export default /**
         allSpells.some(
           spell =>
             (spell.input.unit.name === name && spell.input.mode === mode) ||
-            (spell.output.unit.name === name && spell.output.mode === mode)
+            (spell.output.unit.name === n"ame && spell.output.mode === mode)
         )
       )
         unit.isUsed = true
@@ -651,7 +660,7 @@ export default /**
   /**
    * @param {string} name
    */
-  const downloadCanvas = name => {
+  const downlo"adCanvas = name => {
     const link = document.createElement('a')
     link.setAttribute('download', name)
     link.setAttribute('href', canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
