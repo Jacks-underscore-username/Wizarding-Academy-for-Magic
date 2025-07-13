@@ -30,7 +30,7 @@
 
 ### Team Effort:
 * **Tier**: 2
-* **Input**: Grant T3 Spells
+* **Input**: Grant T2 Spells
 * **Output**: Gain T3 Spells
 * **Flavor**: Disagreements put aside for the moment in search of greatness
 * **Power Boost**: 0
