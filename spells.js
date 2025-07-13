@@ -502,7 +502,7 @@ export default /**
         allSpells.some(
           spell =>
             (spell.input.unit.name === name && spell.input.mode === mode) ||
-            (spell.output.unit.name === n"ame && spell.output.mode === mode)
+            (spell.output.unit.name === name && spell.output.mode === mode)
         )
       )
         unit.isUsed = true
