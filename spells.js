@@ -402,14 +402,17 @@ export default /**
    * @param {unitMode} inputMode
    * @param {unit} outputUnit
    * @param {unitMode} outputMode
+   * @param {number} [powerBoost]
    * @returns {Fraction}
    */
-  const calculate = (tier, inputUnit, inputMode, outputUnit, outputMode) => {
+  const calculate = (tier, inputUnit, inputMode, outputUnit, outputMode, powerBoost = 0) => {
     let inputValue = new Fraction(inputUnit.multiplier, 1)
     if (inputMode === 'give') inputValue = inputValue.multiply(2)
 
     if (inputUnit.tier < tier) inputValue = inputValue.multiply(tier - inputUnit.tier + 1)
     if (inputUnit.tier > tier) inputValue = inputValue.divide((inputUnit.tier - tier + 1) ** 2)
+
+    inputValue = inputValue.multiply(powerBoost + 1)
 
     inputValue = inputValue.add(tier)
 
@@ -418,6 +421,8 @@ export default /**
 
     if (outputUnit.tier < tier) outputValue = outputValue.divide(tier - outputUnit.tier + 1)
     if (outputUnit.tier > tier) outputValue = outputValue.multiply((outputUnit.tier - tier + 1) ** 2)
+
+    outputValue = outputValue.multiply(powerBoost + 1)
 
     return inputValue.divide(outputValue).approximate(10)
   }
@@ -436,7 +441,8 @@ export default /**
         rawSpell.input.unit,
         rawSpell.input.mode,
         rawSpell.output.unit,
-        rawSpell.output.mode
+        rawSpell.output.mode,
+        rawSpell.powerBoost
       )
 
       /** @type {spell} */
@@ -447,12 +453,12 @@ export default /**
         input: {
           unit: rawSpell.input.unit,
           mode: rawSpell.input.mode,
-          count: ratio.denominator * (rawSpell.powerBoost + 1)
+          count: ratio.denominator
         },
         output: {
           unit: rawSpell.output.unit,
           mode: rawSpell.output.mode,
-          count: ratio.numerator * (rawSpell.powerBoost + 1)
+          count: ratio.numerator
         },
         powerBoost: rawSpell.powerBoost
       }
