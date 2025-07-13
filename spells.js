@@ -660,7 +660,7 @@ export default /**
   /**
    * @param {string} name
    */
-  const downlo"adCanvas = name => {
+  const downloadCanvas = name => {
     const link = document.createElement('a')
     link.setAttribute('download', name)
     link.setAttribute('href', canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'))
