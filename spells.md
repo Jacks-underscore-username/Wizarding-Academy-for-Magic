@@ -33,7 +33,7 @@
 * **Input**: Grant T2 Spells
 * **Output**: Gain T3 Spells
 * **Flavor**: Disagreements put aside for the moment in search of greatness
-* **Power Boost**: 0
+* **Power Boost**: 1
 
 ### Gather Ingredients:
 * **Tier**: 3
