@@ -410,7 +410,7 @@ export default /**
    * @param {unit} outputUnit
    * @param {unitMode} outputMode
    * @param {number} [powerBoost]
-   * @returns {Fraction}
+   * @returns {{denominator: number, numerator: number}}
    */
   const calculate = (tier, inputUnit, inputMode, outputUnit, outputMode, powerBoost = 0) => {
     let inputValue = new Fraction(inputUnit.multiplier, 1)
@@ -429,11 +429,11 @@ export default /**
     if (outputUnit.tier < tier) outputValue = outputValue.divide(unitEMBoosts[tier - outputUnit.tier - 1])
     if (outputUnit.tier > tier) outputValue = outputValue.multiply(unitEMNerfs[outputUnit.tier - tier + 1])
 
-    outputValue = outputValue.multiply(powerBoost + 1)
-
     outputValue = outputValue.multiply(spellEMs[tier - 1])
 
-    return inputValue.divide(outputValue).approximate(10)
+    const ratio = inputValue.divide(outputValue).approximate(10)
+
+    return {denominator: ratio.denominator * (powerBoost + 1), numerator: ratio.numerator * (powerBoost + 1)}
   }
 
   lastSet = ''
