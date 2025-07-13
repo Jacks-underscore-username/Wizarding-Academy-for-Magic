@@ -267,9 +267,9 @@ const loadTextFileSync = (filePath, fs) => {
 /** @type {number[]} */
 const spellEMs = [1, 1.1, 1.25, 1.5, 2]
 /** @type {number[]} */
-const unitEMBoosts = [1.1, 1.2, 1.3, 1.4]
+const unitEMBoosts = [1.25, 1.5, 1.75, 2]
 /** @type {number[]} */
-const unitEMNerfs = [1.25, 1.5, 2, 3]
+const unitEMNerfs = [1.5, 2, 3, 4]
 
 export default /**
  * @param {HTMLCanvasElement | import('canvas').Canvas} canvas

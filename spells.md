@@ -110,7 +110,7 @@
 * **Input**: Pay Mana
 * **Output**: Gain T5 Spells
 * **Flavor**: "At my level of power reality itself is as if a book whose pages I can read"
-* **Power Boost**: 0
+* **Power Boost**: 1
 
 ## Base (2/4)
 
