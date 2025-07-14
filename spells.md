@@ -29,7 +29,6 @@
 * **Input**: Grant T2 Spells
 * **Output**: Gain T3 Spells
 * **Flavor**: Disagreements put aside for the moment in search of greatness
-* **Power boost**: 1
 
 ### Gather Ingredients:
 * **Tier**: 3
@@ -96,7 +95,6 @@
 * **Input**: Pay Mana
 * **Output**: Gain T5 Spells
 * **Flavor**: "At my level of power reality itself is as if a book whose pages I can read"
-* **Power boost**: 1
 
 ## Base (2/4)
 
@@ -111,28 +109,24 @@
 * **Input**: Grant Life
 * **Output**: Gain Life
 * **Flavor**: "Airsick lowlanders"
-* **Power boost**: 1
 
 ### Cheap Poison:
 * **Tier**: 2
 * **Input**: Pay Mana
 * **Output**: Drain Life
 * **Flavor**: It's not very good, but it's very easy to make, too easy
-* **Power boost**: 1
 
 ### Make Way for the New:
 * **Tier**: 2
 * **Input**: Give Life
 * **Output**: Gain Life
 * **Flavor**: "No fair, you're not splitting it evenly"
-* **Power boost**: 1
 
 ### Quick Cash:
 * **Tier**: 2
 * **Input**: Pay Life
 * **Output**: Gain Mana
 * **Flavor**: Some "mages" will even buy your very soul
-* **Power boost**: 1
 
 ### Generic Healing Potion:
 * **Tier**: 3
@@ -151,7 +145,6 @@
 * **Input**: Pay Mana
 * **Output**: Take Life
 * **Flavor**: "Just avoid any sun for a little while"
-* **Power boost**: 1
 
 ### Frame the Innocent:
 * **Tier**: 3
@@ -306,35 +299,30 @@
 * **Input**: Pay Mana
 * **Output**: Gain Recycle
 * **Flavor**: The joys of a beginning mage's first presentation
-* **Power boost**: 1
 
 ### Point out a Mana Burst:
 * **Tier**: 2
 * **Input**: Grant Mana
 * **Output**: Gain Freeze
 * **Flavor**: "Wait! Look over there!"
-* **Power boost**: 4
 
 ### Forced Invention:
 * **Tier**: 2
 * **Input**: Grant Add
 * **Output**: Drain Mana
 * **Flavor**: "Looks like my little taunt is paying off"
-* **Power boost**: 1
 
 ### Change of Plans:
 * **Tier**: 2
 * **Input**: Pay Mana
 * **Output**: Gain Delayed Ignite
 * **Flavor**: "What do you mean I present next? You said I had until next week!"
-* **Power boost**: 4
 
 ### Surprise Show:
 * **Tier**: 2
 * **Input**: Pay Mana
 * **Output**: Gain Instant
 * **Flavor**: "Whats the best kind of magic? Unexpected magic!"
-* **Power boost**: 4
 
 ### Meddle:
 * **Tier**: 3
@@ -353,7 +341,6 @@
 * **Input**: Pay Mana
 * **Output**: Gain Delayed Void
 * **Flavor**: "Well you should have already had this project done anyway"
-* **Power boost**: 1
 
 ### Bribe the Scientists:
 * **Tier**: 3
@@ -366,7 +353,6 @@
 * **Input**: Pay Mana
 * **Output**: Gain Delayed Ignite
 * **Flavor**: "Well they were hogging all the space anyway"
-* **Power boost**: 1
 
 ### Bribe the Guard:
 * **Tier**: 3
@@ -385,25 +371,21 @@
 * **Input**: Pay Mana
 * **Output**: Gain Steal
 * **Flavor**: "Now there's no way they get a better score then me"
-* **Power boost**: 2
 
 ### Swap the Project:
 * **Tier**: 4
 * **Input**: Pay Steal
 * **Output**: Gain Void
 * **Flavor**: "I liked theirs more from the start"
-* **Power boost**: 1
 
 ### Chain Reaction:
 * **Tier**: 4
 * **Input**: Pay Void
 * **Output**: Gain Ignite
 * **Flavor**: "I don't know how it happened, my spell went haywire and just set theirs off!"
-* **Power boost**: 1
 
 ### Recursion:
 * **Tier**: 5
 * **Input**: Pay Life
 * **Output**: Gain Perpetual
 * **Flavor**: "Even a mage as powerful as myself has to pay a toll to perform something of this level"
-* **Power boost**: 2

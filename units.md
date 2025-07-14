@@ -18,6 +18,7 @@
 * **Drain description**: Target opponent unlearns X T1 spellS of their choice
 * **Give description**: Give target opponent X T1 or above spellS
 * **Take description**: Target opponent gives you X T1 spellS of their choice
+* **Rules**: Pay max 5, gain max 5, grant max 5, drain max 5, give max 5, take max 5
 
 ### T2 Spells:
 * **Tier**: 1
@@ -34,6 +35,7 @@
 * **Drain description**: Target opponent unlearns X T2 or below spellS of their choice
 * **Give description**: Give target opponent X T2 or above spellS
 * **Take description**: Target opponent gives you X T2 or below spellS of their choice
+* **Rules**: Pay max 5, gain max 5, grant max 5, drain max 5, give max 5, take max 5
 
 ### T3 Spells:
 * **Tier**: 2
@@ -50,6 +52,7 @@
 * **Drain description**: Target opponent unlearns X T3 or below spellS of their choice
 * **Give description**: Give target opponent X T3 or above spellS
 * **Take description**: Target opponent gives you X T3 or below spellS of their choice
+* **Rules**: Pay max 5, gain max 5, grant max 5, drain max 5, give max 5, take max 5
 
 ### T4 Spells:
 * **Tier**: 3
@@ -66,6 +69,7 @@
 * **Drain description**: Target opponent unlearns X T4 or below spellS of their choice
 * **Give description**: Give target opponent X T4 or above spellS
 * **Take description**: Target opponent gives you X T4 or below spellS of their choice
+* **Rules**: Pay max 5, gain max 5, grant max 5, drain max 5, give max 5, take max 5
 
 ### T5 Spells:
 * **Tier**: 4
@@ -82,6 +86,7 @@
 * **Drain description**: Target opponent unlearns X T5 or below spellS of their choice
 * **Give description**: Give target opponent X T5 spellS
 * **Take description**: Target opponent gives you X T5 or below spellS of their choice
+* **Rules**: Pay max 5, gain max 5, grant max 5, drain max 5, give max 5, take max 5
 
 ### Mana:
 * **Tier**: 1 
@@ -120,66 +125,77 @@
 * **Can gain**: yes
 * **Multiplier**: 0.5
 * **Gain description**: Target other spell that makes you gain Mana in this compound makes you gain X extra Mana as it resolves
+* **Rules**: Gain min 5
 
 ### Life Gain Boost:
 * **Tier**: 2 
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Target other spell that makes you gain life in this compound makes you gain X extra life as it resolves
+* **Rules**: Gain min 5
 
 ### Mana Pay Discount:
 * **Tier**: 2 
 * **Can gain**: yes
 * **Multiplier**: 0.5
 * **Gain description**: Target other spell that makes you pay Mana in this compound costs X less Mana to resolve
+* **Rules**: Gain min 5
 
 ### Life Pay Discount:
 * **Tier**: 3 
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Target other spell that makes you pay life in this compound costs X less life to resolve
+* **Rules**: Gain min 5
 
 ### Mana Grant Discount:
 * **Tier**: 1 
 * **Can gain**: yes
 * **Multiplier**: 0.5
 * **Gain description**: Target other spell that makes an opponent gain Mana in this compound spell makes them gain X less Mana to resolve
+* **Rules**: Gain min 5
 
 ### Life Grant Discount:
 * **Tier**: 2 
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Target other spell that makes an opponent gain life in this compound makes them gain X less life to resolve
+* **Rules**: Gain min 5
 
 ### Mana Drain Boost:
 * **Tier**: 2 
 * **Can gain**: yes
 * **Multiplier**: 0.5
 * **Gain description**: Target other spell that makes an opponent lose Mana in this compound makes them lose X more Mana as it resolves
+* **Rules**: Gain min 5
 
 ### Life Drain Boost:
 * **Tier**: 3 
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Target other spell that makes an opponent lose life in this compound makes them lose X more life as it resolves
+* **Rules**: Gain min 5
 
 ### Freeze:
 * **Tier**: 3
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Freeze target compound spell with X or less total lines
+* **Rules**: Gain min 5
 
 ### Ignite:
 * **Tier**: 4
 * **Can gain**: yes
 * **Multiplier**: 2
 * **Gain description**: Choose target compound spell with X or less total lines, it's controller casts it now (they still pay for it)
+* **Rules**: Gain min 5
 
 ### Delayed Ignite:
 * **Tier**: 3
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Choose target compound spell with X or less total lines, it's controller casts it at the end of their next turn (they still pay for it)
+* **Rules**: Gain min 5
 
 ### Void:
 * **Tier**: 5
@@ -188,30 +204,35 @@
 * **Multiplier**: 2
 * **Pay description**: Void target other compound spell with X or more total lineS that you control
 * **Gain description**: Void target compound spell with X or less total lines
+* **Rules**: Gain min 5
 
 ### Delayed Void:
 * **Tier**: 4
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: Choose target compound spell with X or less total lines, it's voided at the end of it's controller's next turn
+* **Rules**: Gain min 5
 
 ### Instant:
 * **Tier**: 4
 * **Can gain**: yes
 * **Multiplier**: 1
 * **Gain description**: You can cast this compound spell at any time if it has X or less total lineS (this spell must resolve first)
+* **Rules**: Gain min 10
 
 ### Perpetual:
 * **Tier**: 5
 * **Can gain**: yes
 * **Multiplier**: 2
 * **Gain description**: This compound spell is not voided as it resolves if it has X or less total lineS (you can't recast it this turn)
+* **Rules**: Gain min 10
 
 ### Forget:
 * **Tier**: 4
 * **Can gain**: yes
 * **Multiplier**: 3
-* **Gain description**: Forget target TX or below spell from the shared knowledge area
+* **Gain description**: Forget target TX or below spell from the shared knowledge 
+* **Rules**: Gain max 5
 
 ### Steal:
 * **Tier**: 4
@@ -220,6 +241,7 @@
 * **Multiplier**: 3
 * **Pay description**: Give target opponent another compound spell you control with X or more total lines
 * **Gain description**: Gain control of target compound spell with X or less total lines
+* **Rules**: Gain min 6
 
 ### Add:
 * **Tier**: 3
@@ -234,4 +256,4 @@
 * **Can gain**: yes
 * **Multiplier**: 0.5
 * **Gain description**: Recycle target other compound spell with X or less total lines that you control
-* **Take description**:
+* **Rules**: Gain min 5

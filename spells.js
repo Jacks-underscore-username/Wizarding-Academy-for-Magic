@@ -1,4 +1,11 @@
 /**
+ * @typedef {Object} unitRule
+ * @prop {unitMode} unitMode
+ * @prop {'max' | 'min'} limitMode
+ * @prop {number} limit
+ */
+
+/**
  * @typedef {Object} unit
  * @prop {1|2|3|4|5} tier
  * @prop {string} name
@@ -17,9 +24,17 @@
  * @prop {string} takeDesc
  * @prop {boolean} isUsed
  * @prop {unitMode[]} unusedModes
+ * @prop {unitRule[]} [rules]
  */
 
 /** @typedef {'pay'|'gain'|'grant'|'drain'|'give'|'take'|'none'} unitMode */
+
+/**
+ * @typedef {Object} spellRule
+ * @prop {'input' | 'output'} unitMode
+ * @prop {'max' | 'min'} limitMode
+ * @prop {number} limit
+ */
 
 /**
  * @typedef {Object} rawSpell
@@ -30,6 +45,7 @@
  * @prop {{unit: unit, mode: unitMode}} output
  * @prop {string} set
  * @prop {number} powerBoost
+ * @prop {spellRule[]} [rules]
  */
 
 /**
@@ -284,7 +300,7 @@ export default /**
   const units = new Map()
 
   /**
-   * @typedef {{name: string, test: RegExp, match: RegExp, types: ('number' | 'string' | 'unit' | 'boolean')[], defaults?: (number | string | unit | boolean)[]}} abstractEntryOption
+   * @typedef {{name: string, test: RegExp, match: RegExp, types: ('number' | 'string' | 'unit' | 'boolean')[], defaults?: (number | string | unit | boolean)[], repeat?: boolean}} abstractEntryOption
    * @param {string[]} lines
    * @param {abstractEntryOption[]} options
    * @returns {Object<string, (number | string | unit | boolean)[]>}
@@ -295,9 +311,11 @@ export default /**
     for (const line of lines)
       for (const option of options)
         if (option.test.test(line)) {
-          const rawMatches = line.match(option.match)?.slice(1) ?? []
+          const rawMatches = option.repeat
+            ? (line.match(option.match) ?? [])
+            : (line.match(option.match)?.slice(1) ?? [])
           const matches = rawMatches.map((value, index) => {
-            const type = option.types[index]
+            const type = option.types[option.repeat ? 0 : index]
             if (type === 'number') return Number.parseFloat(value)
             if (type === 'string') return value
             if (type === 'boolean') return ['y', 't', 'yes', 'true'].includes(value.toLowerCase())
@@ -350,6 +368,13 @@ export default /**
           test: /^\* \*\*Multiplier\*\*: .+$/,
           match: /^\* \*\*Multiplier\*\*: (.+)$/,
           types: ['number']
+        },
+        {
+          name: 'rules',
+          test: /^\* \*\*Rules\*\*:(?:(?:(?: )|(?:, ))[a-zA-Z]+ [a-zA-Z]+ \d+)+$/,
+          match: /[a-zA-Z]+ [a-zA-Z]+ \d+/g,
+          types: ['string'],
+          repeat: true
         }
       ])
       const unit = /** @type {unit} */ ({
@@ -371,6 +396,15 @@ export default /**
         isUsed: false,
         unusedModes: []
       })
+      if (options.rules !== undefined)
+        unit.rules = options.rules.map(rule => ({
+          // @ts-expect-error
+          unitMode: rule.split(' ')[0].toLowerCase(),
+          // @ts-expect-error
+          limitMode: rule.split(' ')[1],
+          // @ts-expect-error
+          limit: Number.parseInt(rule.split(' ')[2])
+        }))
       return unit
     }))
     units.set(unit.name, unit)
@@ -444,6 +478,13 @@ export default /**
           match: /^\* \*\*Power boost\*\*: (.+)$/,
           types: ['number'],
           defaults: [0]
+        },
+        {
+          name: 'rules',
+          test: /^\* \*\*Rules\*\*:(?:(?:(?: )|(?:, ))[a-zA-Z]+ [a-zA-Z]+ \d+)+$/,
+          match: /[a-zA-Z]+ [a-zA-Z]+ \d+/g,
+          types: ['string'],
+          repeat: true
         }
       ])
       const spell = /** @type {rawSpell} */ ({
@@ -457,20 +498,31 @@ export default /**
         powerBoost: options.powerBoost[0],
         set
       })
+      if (options.rules !== undefined)
+        spell.rules = options.rules.map(rule => ({
+          // @ts-expect-error
+          unitMode: rule.split(' ')[0].toLowerCase(),
+          // @ts-expect-error
+          limitMode: rule.split(' ')[1],
+          // @ts-expect-error
+          limit: Number.parseInt(rule.split(' ')[2])
+        }))
       return spell
     })
     .filter(spell => spell !== undefined)
 
   /**
-   * @param {number} tier
-   * @param {unit} inputUnit
-   * @param {unitMode} inputMode
-   * @param {unit} outputUnit
-   * @param {unitMode} outputMode
-   * @param {number} [powerBoost]
-   * @returns {{denominator: number, numerator: number}}
+   * @param {rawSpell} rawSpell
+   * @returns {{denominator: number, numerator: number, unhappy: boolean}}
    */
-  const calculate = (tier, inputUnit, inputMode, outputUnit, outputMode, powerBoost = 0) => {
+  const calculate = rawSpell => {
+    const tier = rawSpell.tier
+    const inputUnit = rawSpell.input.unit
+    const inputMode = rawSpell.input.mode
+    const outputUnit = rawSpell.output.unit
+    const outputMode = rawSpell.output.mode
+    let powerBoost = rawSpell.powerBoost
+
     let inputValue = new Fraction(inputUnit.multiplier, 1)
     if (inputMode === 'give') inputValue = inputValue.multiply(2)
 
@@ -491,8 +543,42 @@ export default /**
 
     const ratio = inputValue.divide(outputValue).approximate(10)
 
-    return { denominator: ratio.denominator * (powerBoost + 1), numerator: ratio.numerator * (powerBoost + 1) }
+    let unhappy = false
+    while (
+      (() => {
+        unhappy = false
+        if (inputUnit.rules !== undefined)
+          for (const rule of inputUnit.rules)
+            if (rule.unitMode === inputMode)
+              if (rule.limitMode === 'min') {
+                if (ratio.denominator * (powerBoost + 1) < rule.limit) return true
+              } else if (ratio.denominator * (powerBoost + 1) > rule.limit) unhappy = true
+        if (outputUnit.rules !== undefined)
+          for (const rule of outputUnit.rules)
+            if (rule.unitMode === outputMode)
+              if (rule.limitMode === 'min') {
+                if (ratio.numerator * (powerBoost + 1) < rule.limit) return true
+              } else if (ratio.numerator * (powerBoost + 1) > rule.limit) unhappy = true
+        if (rawSpell.rules !== undefined)
+          for (const rule of rawSpell.rules)
+            if (rule.limitMode === 'min') {
+              if ((rule.unitMode === 'input' ? ratio.denominator : ratio.denominator) * (powerBoost + 1) < rule.limit)
+                return true
+            } else if (
+              (rule.unitMode === 'input' ? ratio.denominator : ratio.denominator) * (powerBoost + 1) >
+              rule.limit
+            )
+              unhappy = true
+        return false
+      })()
+    )
+      powerBoost++
+
+    return { denominator: ratio.denominator * (powerBoost + 1), numerator: ratio.numerator * (powerBoost + 1), unhappy }
   }
+
+  /** @type {spell[]} */
+  const unhappySpells = []
 
   lastSet = ''
   /** @type {[String, spell[]][]} */
@@ -503,14 +589,7 @@ export default /**
      * @returns {[String, spell[]][]}
      */
     (prev, rawSpell) => {
-      const ratio = calculate(
-        rawSpell.tier,
-        rawSpell.input.unit,
-        rawSpell.input.mode,
-        rawSpell.output.unit,
-        rawSpell.output.mode,
-        rawSpell.powerBoost
-      )
+      const ratio = calculate(rawSpell)
 
       /** @type {spell} */
       const spell = {
@@ -529,6 +608,8 @@ export default /**
         },
         powerBoost: rawSpell.powerBoost
       }
+
+      if (ratio.unhappy) unhappySpells.push(spell)
 
       if (rawSpell.set !== lastSet) {
         prev.push([rawSpell.set, []])
@@ -565,6 +646,13 @@ export default /**
       )
         unit.isUsed = true
       else unit.unusedModes.push(mode)
+  }
+
+  if (unhappySpells.length) {
+    console.log(
+      `${unhappySpells.length} spell${unhappySpells.length === 1 ? '' : 's'} failed to calculate within bounds:`
+    )
+    for (const spell of unhappySpells) console.warn(JSON.stringify(spell, undefined, 2))
   }
 
   /**
