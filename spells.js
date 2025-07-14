@@ -287,6 +287,8 @@ const unitEMBoosts = [1.25, 1.5, 1.75, 2]
 /** @type {number[]} */
 const unitEMNerfs = [1.5, 2, 3, 4]
 
+let alreadyWhined = false
+
 export default /**
  * @param {HTMLCanvasElement | import('canvas').Canvas} canvas
  * @param {CanvasRenderingContext2D | import('canvas').CanvasRenderingContext2D} ctx
@@ -648,7 +650,8 @@ export default /**
       else unit.unusedModes.push(mode)
   }
 
-  if (unhappySpells.length) {
+  if (unhappySpells.length && !alreadyWhined) {
+    alreadyWhined = true
     console.log(
       `${unhappySpells.length} spell${unhappySpells.length === 1 ? '' : 's'} failed to calculate within bounds:`
     )

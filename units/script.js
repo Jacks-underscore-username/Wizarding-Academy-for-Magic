@@ -1,9 +1,9 @@
 const canvas = /** @type {HTMLCanvasElement} */ (document.createElement('canvas'))
 const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext('2d'))
 import colorScheme from '../config.js'
-import rawSpellsModule from '../spells.js'
+import rawUnitsModule from '../spells.js'
 const size = window.innerWidth / 10
-const spellsModule = rawSpellsModule(canvas, ctx, size, colorScheme)
+const unitsModule = rawUnitsModule(canvas, ctx, size, colorScheme)
 const values = [
   'tier',
   'name',
@@ -30,7 +30,7 @@ const values = [
   ])
   .map(l => [l[0], l[1][0].toUpperCase() + l[1].slice(1)])
 const page = document.getElementById('page_content')
-for (const unit of Array.from(spellsModule.units.values())
+for (const unit of Array.from(unitsModule.units.values())
   .sort((a, b) => a.multiplier - b.multiplier)
   .sort((a, b) => a.tier - b.tier)) {
   const wrapper = document.createElement('div')
