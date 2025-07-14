@@ -281,56 +281,99 @@ export default /**
  */
 (canvas, ctx, size, colorScheme, fs) => {
   /** @type {Map<String, unit>} */
-  const units = new Map(
-    loadTextFileSync('../units.md', fs)
-      .split('### ')
-      .filter(x => x)
-      .map(rawUnit => {
-        const lines = rawUnit
-          .split('\n')
-          .filter(x => x)
-          .map(x => x.trim())
-        const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
-        const tier = /** @type {1|2|3|4|5} */ (
-          Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
-        )
-        const canPay = /^\* \*\*Can pay\*\*: yes$/.test(lines.shift() ?? '')
-        const canGain = /^\* \*\*Can gain\*\*: yes$/.test(lines.shift() ?? '')
-        const canGrant = /^\* \*\*Can grant\*\*: yes$/.test(lines.shift() ?? '')
-        const canDrain = /^\* \*\*Can drain\*\*: yes$/.test(lines.shift() ?? '')
-        const canGive = /^\* \*\*Can give\*\*: yes$/.test(lines.shift() ?? '')
-        const canTake = /^\* \*\*Can take\*\*: yes$/.test(lines.shift() ?? '')
-        const multiplier = Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Multiplier\*\*: (.*)$/)?.[1] ?? '')
-        const payDesc = (lines.shift() ?? '').match(/^\* \*\*Pay description\*\*: (.*)$/)?.[1] ?? ''
-        const gainDesc = (lines.shift() ?? '').match(/^\* \*\*Gain description\*\*: (.*)$/)?.[1] ?? ''
-        const grantDesc = (lines.shift() ?? '').match(/^\* \*\*Grant description\*\*: (.*)$/)?.[1] ?? ''
-        const drainDesc = (lines.shift() ?? '').match(/^\* \*\*Drain description\*\*: (.*)$/)?.[1] ?? ''
-        const giveDesc = (lines.shift() ?? '').match(/^\* \*\*Give description\*\*: (.*)$/)?.[1] ?? ''
-        const takeDesc = (lines.shift() ?? '').match(/^\* \*\*Take description\*\*: (.*)$/)?.[1] ?? ''
-        /** @type {unit} */
-        const unit = {
-          name,
-          tier,
-          canPay,
-          canGain,
-          canGrant,
-          canDrain,
-          canGive,
-          canTake,
-          multiplier,
-          payDesc,
-          gainDesc,
-          grantDesc,
-          drainDesc,
-          giveDesc,
-          takeDesc,
-          isUsed: false,
-          unusedModes: []
+  const units = new Map()
+
+  /**
+   * @typedef {{name: string, test: RegExp, match: RegExp, types: ('number' | 'string' | 'unit' | 'boolean')[], defaults?: (number | string | unit | boolean)[]}} abstractEntryOption
+   * @param {string[]} lines
+   * @param {abstractEntryOption[]} options
+   * @returns {Object<string, (number | string | unit | boolean)[]>}
+   */
+  const parseAbstractEntry = (lines, options) => {
+    /** @type {Object<string, (number | string | unit | boolean)[]>} */
+    const results = {}
+    for (const line of lines)
+      for (const option of options)
+        if (option.test.test(line)) {
+          const rawMatches = line.match(option.match)?.slice(1) ?? []
+          const matches = rawMatches.map((value, index) => {
+            const type = option.types[index]
+            if (type === 'number') return Number.parseFloat(value)
+            if (type === 'string') return value
+            if (type === 'boolean') return ['y', 't', 'yes', 'true'].includes(value.toLowerCase())
+            return /** @type {unit} */ (units.get(value))
+          })
+          results[option.name] = matches
+          break
         }
-        return unit
+    for (const option of options)
+      if (results[option.name] === undefined && option.defaults !== undefined) results[option.name] = option.defaults
+    return results
+  }
+
+  for (const unit of loadTextFileSync('../units.md', fs)
+    .split('### ')
+    .filter(x => x)
+    .map(unit => `### ${unit}`)
+    .map(rawUnit => {
+      const lines = rawUnit
+        .split('\n')
+        .filter(x => x)
+        .map(x => x.trim())
+      const options = parseAbstractEntry(lines, [
+        { name: 'name', test: /^### .*:$/, match: /^### (.*):$/, types: ['string'] },
+        { name: 'tier', test: /^\* \*\*Tier\*\*: .+$/, match: /^\* \*\*Tier\*\*: (.+)$/, types: ['number'] },
+        ...['pay', 'gain', 'grant', 'drain', 'give', 'take'].flatMap(
+          /**
+           * @param {string} mode
+           * @returns {abstractEntryOption[]}
+           */
+          mode => [
+            {
+              name: `can${mode[0].toUpperCase()}${mode.slice(1)}`,
+              test: new RegExp(`^\\* \\*\\*Can ${mode}\\*\\*:.*$`),
+              match: new RegExp(`^\\* \\*\\*Can ${mode}\\*\\*: (.*)$`),
+              types: ['boolean'],
+              defaults: [false]
+            },
+            {
+              name: `${mode}Desc`,
+              test: new RegExp(`^\\* \\*\\*${mode[0].toUpperCase()}${mode.slice(1)} description\\*\\*:.*$`),
+              match: new RegExp(`^\\* \\*\\*${mode[0].toUpperCase()}${mode.slice(1)} description\\*\\*: (.*)$`),
+              types: ['string'],
+              defaults: ['']
+            }
+          ]
+        ),
+        {
+          name: 'multiplier',
+          test: /^\* \*\*Multiplier\*\*: .+$/,
+          match: /^\* \*\*Multiplier\*\*: (.+)$/,
+          types: ['number']
+        }
+      ])
+      const unit = /** @type {unit} */ ({
+        name: options.name[0],
+        tier: options.tier[0],
+        canPay: options.canPay[0],
+        canGain: options.canGain[0],
+        canGrant: options.canGrant[0],
+        canDrain: options.canDrain[0],
+        canGive: options.canGive[0],
+        canTake: options.canTake[0],
+        multiplier: options.multiplier[0],
+        payDesc: options.payDesc[0],
+        gainDesc: options.gainDesc[0],
+        grantDesc: options.grantDesc[0],
+        drainDesc: options.drainDesc[0],
+        giveDesc: options.giveDesc[0],
+        takeDesc: options.takeDesc[0],
+        isUsed: false,
+        unusedModes: []
       })
-      .map(unit => [unit.name, unit])
-  )
+      return unit
+    }))
+    units.set(unit.name, unit)
 
   /**
    * @param {{unit: unit, mode: unitMode, count: number}} x
@@ -359,17 +402,19 @@ export default /**
   /** @type {rawSpell[]} */
   const rawSpells = loadTextFileSync('../spells.md', fs)
     .split('### ')
-    .map(rawUnit => {
+    .filter(spell => spell)
+    .map(spell => `### ${spell}`)
+    .map(rawSpell => {
       if (isDone) return
       let set = lastSet
-      const lines = rawUnit
+      const lines = rawSpell
         .split('\n')
         .filter(x => x)
         .map(x => x.trim())
         .map(line => {
           if (line === 'BREAK') isDone = true
-          if (/^## .*$/.test(line)) {
-            lastSet = line.match(/^## (.*)$/)?.[1] ?? ''
+          if (/^(?:(?:##)|(?:### ##)) .*$/.test(line)) {
+            lastSet = line.match(/^(?:(?:##)|(?:### ##)) (.*)$/)?.[1] ?? ''
             if (set === '') set = lastSet
             return ''
           }
@@ -377,29 +422,42 @@ export default /**
         })
         .filter(line => line)
       if (!lines.length) return
-      const name = (lines.shift() ?? '').match(/^(.*):$/)?.[1] ?? ''
-      const tier = /** @type {1|2|3|4|5} */ (
-        Number.parseFloat((lines.shift() ?? '').match(/^\* \*\*Tier\*\*: (.*)$/)?.[1] ?? '')
-      )
-      const inputName = (lines[0] ?? '').match(/^\* \*\*Input\*\*: \S+ (.*)$/)?.[1] ?? ''
-      const inputMode = (lines.shift() ?? '').match(/^\* \*\*Input\*\*: (\S+) .*$/)?.[1] ?? ''
-      const outputName = (lines[0] ?? '').match(/^\* \*\*Output\*\*: \S+ (.*)$/)?.[1] ?? ''
-      const outputMode = (lines.shift() ?? '').match(/^\* \*\*Output\*\*: (\S+) .*$/)?.[1] ?? ''
-      const flavor = (lines.shift() ?? '').match(/^\* \*\*Flavor\*\*: (.*)$/)?.[1] ?? ''
-      const powerBoost = Number.parseInt((lines.shift() ?? '').match(/^\* \*\*Power Boost\*\*: (.*)$/)?.[1] ?? '')
-      const inputUnit = units.get(inputName)
-      const outputUnit = units.get(outputName)
-      if (inputUnit === undefined) throw new Error(`Unknown unit "${inputName}"`)
-      if (outputUnit === undefined) throw new Error(`Unknown unit "${outputName}"`)
-      return {
-        name,
-        tier,
-        input: { unit: inputUnit, mode: /** @type {unitMode} */ (inputMode.toLowerCase()) },
-        output: { unit: outputUnit, mode: /** @type {unitMode} */ (outputMode.toLowerCase()) },
-        flavor,
-        set,
-        powerBoost
-      }
+      const options = parseAbstractEntry(lines, [
+        { name: 'name', test: /^### .*:$/, match: /^### (.*):$/, types: ['string'] },
+        { name: 'tier', test: /^\* \*\*Tier\*\*: .+$/, match: /^\* \*\*Tier\*\*: (.+)$/, types: ['number'] },
+        {
+          name: 'input',
+          test: /^\* \*\*Input\*\*:.*$/,
+          match: /^\* \*\*Input\*\*: (\S+)(?: {0,1})(.*)$/,
+          types: ['string', 'unit']
+        },
+        {
+          name: 'output',
+          test: /^\* \*\*Output\*\*:.*$/,
+          match: /^\* \*\*Output\*\*: (\S+) (.*)$/,
+          types: ['string', 'unit']
+        },
+        { name: 'flavor', test: /^\* \*\*Flavor\*\*: .+$/, match: /^\* \*\*Flavor\*\*: (.+)$/, types: ['string'] },
+        {
+          name: 'powerBoost',
+          test: /^\* \*\*Power boost\*\*: .+$/,
+          match: /^\* \*\*Power boost\*\*: (.+)$/,
+          types: ['number'],
+          defaults: [0]
+        }
+      ])
+      const spell = /** @type {rawSpell} */ ({
+        name: options.name[0],
+        tier: options.tier[0],
+        // @ts-expect-error
+        input: { unit: options.input[1], mode: options.input[0].toLowerCase() },
+        // @ts-expect-error
+        output: { unit: options.output[1], mode: options.output[0].toLowerCase() },
+        flavor: options.flavor[0],
+        powerBoost: options.powerBoost[0],
+        set
+      })
+      return spell
     })
     .filter(spell => spell !== undefined)
 
@@ -433,7 +491,7 @@ export default /**
 
     const ratio = inputValue.divide(outputValue).approximate(10)
 
-    return {denominator: ratio.denominator * (powerBoost + 1), numerator: ratio.numerator * (powerBoost + 1)}
+    return { denominator: ratio.denominator * (powerBoost + 1), numerator: ratio.numerator * (powerBoost + 1) }
   }
 
   lastSet = ''
